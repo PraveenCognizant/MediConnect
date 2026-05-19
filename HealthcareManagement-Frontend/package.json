@@ -1,6 +1,12 @@
 {
   "name": "health-care-management",
   "version": "0.0.0",
+  "private": true,
+  "description": "project",
+  "license": "ISC",
+  "author": "Varsg",
+  "type": "commonjs",
+  "main": "karma.conf.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -8,7 +14,6 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "~12.0.3",
     "@angular/cdk": "^12.0.5",

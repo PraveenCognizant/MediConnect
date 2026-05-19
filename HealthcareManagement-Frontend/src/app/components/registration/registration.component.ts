@@ -45,11 +45,18 @@ export class RegistrationComponent implements OnInit {
         sessionStorage.setItem("gender",this.user.gender);
         this._router.navigate(['/registrationsuccess']);
       },
-      error => {
-        console.log("Registration Failed");
-        console.log(error.error);
-        this.msg = "User with "+this.user.email+" already exists !!!";
+    error => {
+      console.log("Registration Failed", error);
+      if (error.status === 0) {
+        this.msg = "Cannot connect to server. Check CORS/Security settings.";
+      } else if (error.status === 403) {
+        this.msg = "Registration blocked by security/CORS. Server returned 403.";
+      } else if (error.error) {
+        this.msg = error.error;
+      } else {
+        this.msg = "User with " + this.user.email + " already exists !!!";
       }
+    }
     )
   }
 

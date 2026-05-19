@@ -27,12 +27,12 @@ public class RegistrationController
 	@Autowired
 	private DoctorRegistrationService doctorRegisterService;
 	
-	@PostMapping("/registeruser")
+	@PostMapping({"/registerUser", "/registeruser"})
 	@CrossOrigin(origins = "http://localhost:4200")
-	public User registerUser(@RequestBody User user) throws Exception
+	public ResponseEntity<?> registerUser(@RequestBody User user) throws Exception
 	{
 		String currEmail = user.getEmail();
-		if(currEmail != null || !"".equals(currEmail))
+		if(currEmail != null && !"".equals(currEmail))
 		{
 			User userObj = userRegisterService.fetchUserByEmail(currEmail);
 			if(userObj != null)
@@ -43,7 +43,7 @@ public class RegistrationController
 		System.out.println("here");
 		User userObj = null;
 		userObj = userRegisterService.saveUser(user);
-		return userObj;
+		return new ResponseEntity<User>(userObj, HttpStatus.OK);
 	}
 	
 	@PostMapping("/registerdoctor")
@@ -51,7 +51,7 @@ public class RegistrationController
 	public Doctor registerDoctor(@RequestBody Doctor doctor) throws Exception
 	{
 		String currEmail = doctor.getEmail();
-		if(currEmail != null || !"".equals(currEmail))
+		if(currEmail != null && !"".equals(currEmail))
 		{
 			Doctor doctorObj = doctorRegisterService.fetchDoctorByEmail(currEmail);
 			if(doctorObj != null)

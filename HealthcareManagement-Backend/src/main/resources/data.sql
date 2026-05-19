@@ -1,0 +1,67 @@
+INSERT INTO appointments (id, am_slot, am_status, date, doctor_name, email, noon_slot, noon_status, patient_type, pm_slot, pm_status, specialization) VALUES
+('2', 'AM slot', 'Booked', '2026-05-21', 'Sarah Jones', 'sarah.jones@clinic.org', 'Noon slot', 'Booked', 'Child', 'PM slot', 'Available', 'Pediatrics'),
+('3', 'AM slot', 'Available', '2026-05-22', 'Michael Patel', 'm.patel@health.com', 'Noon slot', 'Booked', 'General', 'PM slot', 'Available', 'Dermatology'),
+('4', 'AM slot', 'Booked', '2026-05-23', 'Emily White', 'emily.white@med.com', 'Noon slot', 'Available', 'Critical', 'PM slot', 'Available', 'Neurology'),
+('5', 'AM slot', 'Booked', '2026-05-24', 'Robert Lee', 'robert.lee@hosp.com', 'Noon slot', 'Booked', 'Emergency', 'PM slot', 'Booked', 'Orthopedics'),
+('6', 'AM slot', 'Booked', '2026-05-25', 'Alex Brown', 'alex.brown@care.com', 'Noon slot', 'Available', 'Critical', 'PM slot', 'Booked', 'Oncology'),
+('7', 'AM slot', 'booked', '2026-05-26', 'Linda Green', 'linda.green@medicare.org', 'Noon slot', 'Booked', 'General', 'PM slot', 'Available', 'Gynecology'),
+('8', 'AM slot', 'Booked', '2026-05-27', 'David Clark', 'david.clark@healthnet.com', 'Noon slot', 'Available', 'General', 'PM slot', 'Booked', 'ENT'),
+('9', 'AM slot', 'Available', '2026-05-28', 'Nancy Adams', 'nancy.adams@clinic.com', 'Noon slot', 'Available', 'General', 'PM slot', 'Booked', 'Psychiatry'),
+('10', 'AM slot', 'Booked', '2026-05-29', 'Steven Harris', 'steven.harris@docmail.com', 'Noon slot', 'Available', 'General', 'PM slot', 'Booked', 'Gastroenterology'),
+('11', 'AM slot', 'Available', '2026-05-30', 'Karen Scott', 'karen.scott@lifehealth.org', 'Noon slot', 'Booked', 'Chronic', 'PM slot', 'Booked', 'Endocrinology'),
+('12', 'AM slot', 'Booked', '2026-05-31', 'Paul Evans', 'paul.evans@hospcare.com', 'Noon slot', 'Available', 'Emergency', 'PM slot', 'Booked', 'Urology'),
+('13', 'AM slot', 'Available', '2026-06-01', 'Susan Miller', 'susan.miller@familymed.com', 'Noon slot', 'Booked', 'General', 'PM slot', 'Available', 'Family Medicine'),
+('14', 'AM slot', 'Booked', '2026-06-02', 'Laura Turner', 'laura.turner@medline.com', 'Noon slot', 'Booked', 'Diagnostic', 'PM slot', 'Available', 'Radiology'),
+('15', 'AM slot', 'Available', '2026-06-03', 'Brian Lopez', 'brian.lopez@healthline.com', 'Noon slot', 'Booked', 'Chronic', 'PM slot', 'Booked', 'Nephrology'),
+('16', 'AM slot', 'Booked', '2026-06-04', 'Olivia Hill', 'olivia.hill@doctorhub.com', 'Noon slot', 'Available', 'General', 'PM slot', 'Available', 'Ophthalmology');
+
+INSERT INTO doctor (email, address, doctorname, experience, gender, mobile, password, previoushospital, specialization, status) VALUES
+('alex.brown@care.com', '12 River St, Denver', 'Alex Brown', '10 years', 'Male', '9321456780', 'onc123', 'Hope Hospital', 'Oncology', 'Approved'),
+('brian.lopez@healthline.com', '50 Spruce St, Charlotte', 'Brian Lopez', '8 years', 'Male', '9098765432', 'neph258', 'Kidney Care', 'Nephrology', 'Approved'),
+('daniel.king@health.org', '28 Oak St, Houston', 'Daniel King', '13 years', 'Male', '9432101234', 'pul852', 'Breath Easy Center', 'Pulmonology', 'Approved'),
+('david.clark@healthnet.com', '45 Hill Rd, San Diego', 'David Clark', '6 years', 'Male', '9102345678', 'ent789', 'CityCare Hospital', 'ENT', 'Approved'),
+('dr.smith@hospital.com', '123 Maple St, New York', 'John Smith', '12 years', 'Male', '9876543210', 'pass123', 'City General', 'Cardiology', 'Approved'),
+('emily.white@med.com', '321 Elm St, Seattle', 'Emily White', '15 years', 'Female', '6543210987', 'neuro321', 'St. Judes', 'Neurology', 'Approved'),
+('karen.scott@lifehealth.org', '56 Pine Ave, Phoenix', 'Karen Scott', '11 years', 'Female', '9765432101', 'endo987', 'Care Plus', 'Endocrinology', 'Approved'),
+('laura.turner@medline.com', '73 Willow Dr, San Jose', 'Laura Turner', '16 years', 'Female', '9321012345', 'rad951', 'Imaging Hub', 'Radiology', 'Approved'),
+('linda.green@medicare.org', '89 Lakeview Dr, Miami', 'Linda Green', '7 years', 'Female', '9214567830', 'gyn456', 'Wellness Center', 'Gynecology', 'Approved'),
+('m.patel@health.com', '789 Pine Rd, Chicago', 'Michael Patel', '5 years', 'Male', '7654321098', 'doctor789', 'Metro Clinic', 'Dermatology', 'Approved'),
+('mark.wright@clinicmail.com', '65 Maple Ave, Detroit', 'Mark Wright', '3 years', 'Male', '9210123456', 'sur357', 'Surgical Care', 'General Surgery', 'Approved'),
+('megan.carter@cliniconline.com', '22 Cherry Ln, Columbus', 'Megan Carter', '5 years', 'Female', '9876501234', 'imm369', 'Allergy Relief Clinic', 'Allergy & Immunology', 'Approved'),
+('nancy.adams@clinic.com', '77 Sunset Blvd, Los Angeles', 'Nancy Adams', '9 years', 'Female', '9988776655', 'psy321', 'Mind Care Clinic', 'Psychiatry', 'Approved'),
+('olivia.hill@doctorhub.com', '18 Elm Rd, Philadelphia', 'Olivia Hill', '12 years', 'Female', '9101234567', 'eye654', 'Vision Plus', 'Ophthalmology', 'Approved'),
+('paul.evans@hospcare.com', '34 Cedar St, Atlanta', 'Paul Evans', '18 years', 'Male', '9654321012', 'uro159', 'Metro Health', 'Urology', 'Approved'),
+('robert.lee@hosp.com', '654 Birch Dr, Austin', 'Robert Lee', '20 years', 'Male', '5432109876', 'ortho654', 'Unity Medical', 'Orthopedics', 'Approved'),
+('ryan.morris@medworld.com', '39 Aspen Way, Minneapolis', 'Ryan Morris', '17 years', 'Male', '9765409876', 'cts147', 'Heart Institute', 'Cardiothoracic Surgery', 'Approved'),
+('sarah.jones@clinic.org', '456 Oak Ave, Boston', 'Sarah Jones', '8 years', 'Female', '8765432109', 'secure456', 'Childrens Health', 'Pediatrics', 'Approved'),
+('steven.harris@docmail.com', '102 Main St, Dallas', 'Steven Harris', '14 years', 'Male', '9871234560', 'gas654', 'Digestive Health', 'Gastroenterology', 'Approved'),
+('susan.miller@familymed.com', '91 Birch Ln, Orlando', 'Susan Miller', '4 years', 'Female', '9543210123', 'fam753', 'Family First Clinic', 'Family Medicine', 'Approved');
+
+
+INSERT INTO user (email, address, age, gender, mobile, password, username) VALUES
+('alice.smith@gmail.com', '123 Maple St, New York', '25', 'Female', '9876543210', 'alice123', 'Alice Smith'),
+('bob.jones@yahoo.com', '456 Oak Rd, Chicago', '32', 'Male', '8765432109', 'bob456', 'Bob Jones'),
+('charlie.brown@outlook.com', '789 Pine Ln, LA', '28', 'Male', '7654321098', 'charlie789', 'Charlie Brown'),
+('diana.prince@gmail.com', '101 Cedar Blvd, Austin', '30', 'Female', '6543210987', 'diana101', 'Diana Prince'),
+('ethan.hunt@mission.com', '12 River St, Denver', '40', 'Male', '9321456780', 'ethan932', 'Ethan Hunt'),
+('fiona.gallagher@care.org', '202 Willow Way, Seattle', '22', 'Female', '5432109876', 'fiona202', 'Fiona Gallagher'),
+('george.miller@health.net', '303 Birch Dr, Miami', '45', 'Male', '4321098765', 'george303', 'George Miller'),
+('hannah.abbott@clinic.com', '404 Ash Ct, Boston', '29', 'Female', '3210987654', 'hannah404', 'Hannah Abbott'),
+('ian.wright@docmail.com', '505 Elm St, Phoenix', '35', 'Male', '2109876543', 'ian505', 'Ian Wright'),
+('jenny.kim@lifehealth.org', '606 Spruce Rd, Dallas', '27', 'Female', '1098765432', 'jenny606', 'Jenny Kim');
+
+INSERT INTO slots (id, amslot, amstatus, date, doctorname, email, noonslot, noonstatus, patienttype, pmslot, pmstatus, specialization) VALUES
+(2, 'AM slot', 'Booked', '2026-05-21', 'Sarah Jones', 'sarah.jones@clinic.org', 'Noon slot', 'Booked', 'Child', 'PM slot', 'Available', 'Pediatrics'),
+(4, 'AM slot', 'Booked', '2026-05-23', 'Emily White', 'emily.white@med.com', 'Noon slot', 'Available', 'Critical', 'PM slot', 'Available', 'Neurology'),
+(5, 'AM slot', 'Booked', '2026-05-24', 'Robert Lee', 'robert.lee@hosp.com', 'Noon slot', 'Booked', 'Emergency', 'PM slot', 'Booked', 'Orthopedics'),
+(6, 'AM slot', 'Booked', '2026-05-25', 'Alex Brown', 'alex.brown@care.com', 'Noon slot', 'Available', 'Critical', 'PM slot', 'Booked', 'Oncology'),
+(7, 'AM slot', 'booked', '2026-05-26', 'Linda Green', 'linda.green@medicare.org', 'Noon slot', 'Booked', 'General', 'PM slot', 'Available', 'Gynecology'),
+(8, 'AM slot', 'Booked', '2026-05-27', 'David Clark', 'david.clark@healthnet.com', 'Noon slot', 'Available', 'General', 'PM slot', 'Booked', 'ENT'),
+(9, 'AM slot', 'Available', '2026-05-28', 'Nancy Adams', 'nancy.adams@clinic.com', 'Noon slot', 'Available', 'General', 'PM slot', 'Booked', 'Psychiatry'),
+(10, 'AM slot', 'Booked', '2026-05-29', 'Steven Harris', 'steven.harris@docmail.com', 'Noon slot', 'Available', 'General', 'PM slot', 'Booked', 'Gastroenterology'),
+(11, 'AM slot', 'Available', '2026-05-30', 'Karen Scott', 'karen.scott@lifehealth.org', 'Noon slot', 'Booked', 'Chronic', 'PM slot', 'Booked', 'Endocrinology'),
+(12, 'AM slot', 'Booked', '2026-05-31', 'Paul Evans', 'paul.evans@hospcare.com', 'Noon slot', 'Available', 'Emergency', 'PM slot', 'Booked', 'Urology'),
+(13, 'AM slot', 'Available', '2026-06-01', 'Susan Miller', 'susan.miller@familymed.com', 'Noon slot', 'Booked', 'General', 'PM slot', 'Available', 'Family Medicine'),
+(14, 'AM slot', 'Booked', '2026-06-02', 'Laura Turner', 'laura.turner@medline.com', 'Noon slot', 'Booked', 'Diagnostic', 'PM slot', 'Available', 'Radiology'),
+(15, 'AM slot', 'Available', '2026-06-03', 'Brian Lopez', 'brian.lopez@healthline.com', 'Noon slot', 'Booked', 'Chronic', 'PM slot', 'Booked', 'Nephrology'),
+(16, 'AM slot', 'Booked', '2026-06-04', 'Olivia Hill', 'olivia.hill@doctorhub.com', 'Noon slot', 'Available', 'General', 'PM slot', 'Available', 'Ophthalmology');

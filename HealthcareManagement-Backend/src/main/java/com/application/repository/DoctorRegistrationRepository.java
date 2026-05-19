@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import com.application.model.Doctor;
 
-public interface DoctorRegistrationRepository extends CrudRepository<Doctor, Integer>
+public interface DoctorRegistrationRepository extends CrudRepository<Doctor, String>
 {
 	
     public Doctor findByEmail(String email);

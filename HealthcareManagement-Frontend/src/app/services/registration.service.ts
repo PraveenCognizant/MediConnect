@@ -18,9 +18,9 @@ export class RegistrationService {
 
   constructor(private _http : HttpClient) { }
 
-public registerUserFromRemote(user : User):Observable<any>
-{
-    return this._http.post<any>(`${NAV_URL}/registeruser`,user)
+// registration.service.ts
+registerUserFromRemote(user: User): Observable<any> {
+  return this._http.post<any>(`${NAV_URL}/registerUser`, user, { responseType: 'text' as 'json' });
 }
 
 public registerDoctorFromRemote(doctor : Doctor):Observable<any>
