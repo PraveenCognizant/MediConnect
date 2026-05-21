@@ -39,11 +39,23 @@ export class RegistrationComponent implements OnInit {
       return;
     }
     this._registrationService.registerUserFromRemote(this.user).subscribe(
-      data => {
-        console.log("Registration Success");
-        localStorage.setItem("username",this.user.username);
-        localStorage.setItem("gender",this.user.gender);
-        this._router.navigate(['/registrationsuccess']);
+      (data: any) => {
+        console.log("Registration Success", data);
+
+        // ── Auto-login: persist the AuthResponse into localStorage ──────────
+        // Store JWT token so guards see the user as authenticated immediately
+        if (data && data.token) {
+          localStorage.setItem('TOKEN', `Bearer ${data.token}`);
+        }
+        localStorage.setItem('loggedUser', data.email || this.user.email);
+        localStorage.setItem('USER',       data.email || this.user.email);
+        localStorage.setItem('ROLE',       'user');
+        localStorage.setItem('name',       data.name  || this.user.username);
+        localStorage.setItem('gender',     data.gender || this.user.gender);
+        localStorage.setItem('age',        data.age   || this.user.age);
+
+        // Navigate straight to the dashboard — no login page needed
+        this._router.navigate(['/userdashboard']);
       },
     error => {
       console.log("Registration Failed", error);
@@ -67,11 +79,25 @@ export class RegistrationComponent implements OnInit {
       return;
     }
     this._registrationService.registerDoctorFromRemote(this.doctor).subscribe(
-      data => {
-        console.log("Registration Success");
-        localStorage.setItem("doctorname",this.doctor.doctorname);
-        localStorage.setItem("gender",this.doctor.gender);
-        this._router.navigate(['/registrationsuccess']);
+      (data: any) => {
+        console.log("Registration Success", data);
+
+        // ── Auto-login: persist the AuthResponse into localStorage ──────────
+        // Store JWT token so guards see the doctor as authenticated immediately
+        if (data && data.token) {
+          localStorage.setItem('TOKEN', `Bearer ${data.token}`);
+        }
+        localStorage.setItem('loggedUser',  data.email        || this.doctor.email);
+        localStorage.setItem('USER',        data.email        || this.doctor.email);
+        localStorage.setItem('ROLE',        'doctor');
+        localStorage.setItem('doctorname',  data.name         || this.doctor.doctorname);
+        localStorage.setItem('name',        data.name         || this.doctor.doctorname);
+        localStorage.setItem('gender',      data.gender       || this.doctor.gender);
+
+        // Navigate straight to the doctor dashboard — no login page needed
+        // Note: the doctor account will be in 'pending' status and must be
+        // approved by admin before full access; the dashboard shows this status.
+        this._router.navigate(['/doctordashboard']);
       },
       error => {
         console.log("Registration Failed", error);

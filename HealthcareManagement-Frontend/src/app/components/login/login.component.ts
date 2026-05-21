@@ -39,10 +39,14 @@ export class LoginComponent implements OnInit {
       this._service.loginUserFromRemote(this.user).subscribe(
         (data: any) => {
           console.log(data);
+          // Store the JWT token returned by the unified AuthResponse
+          if (data && data.token) {
+            localStorage.setItem('TOKEN', `Bearer ${data.token}`);
+          }
           localStorage.setItem('loggedUser', this.user.email);
           localStorage.setItem('USER', this.user.email);
           localStorage.setItem('ROLE', 'user');
-          localStorage.setItem('name', data.username || this.user.email);
+          localStorage.setItem('name', data.name || data.username || this.user.email);
           localStorage.setItem('gender', data.gender || '');
           localStorage.setItem('age', data.age || '');
           this._router.navigate(['/userdashboard']);
@@ -59,12 +63,20 @@ export class LoginComponent implements OnInit {
       this._service.loginDoctorFromRemote(this.doctor).subscribe(
         (data: any) => {
           console.log(data);
+          // Store the JWT token returned by the unified AuthResponse
+          if (data && data.token) {
+            localStorage.setItem('TOKEN', `Bearer ${data.token}`);
+          }
           localStorage.clear();
+          if (data && data.token) {
+            localStorage.setItem('TOKEN', `Bearer ${data.token}`);
+          }
           localStorage.setItem('loggedUser', this.doctor.email);
           localStorage.setItem('USER', this.doctor.email);
           localStorage.setItem('ROLE', 'doctor');
-          localStorage.setItem('doctorname', this.doctor.email);
-          localStorage.setItem('gender', 'male');
+          localStorage.setItem('doctorname', data.name || data.doctorname || this.doctor.email);
+          localStorage.setItem('name', data.name || data.doctorname || this.doctor.email);
+          localStorage.setItem('gender', data.gender || '');
           this._router.navigate(['/doctordashboard']);
         },
         (error: { error: any; }) => {

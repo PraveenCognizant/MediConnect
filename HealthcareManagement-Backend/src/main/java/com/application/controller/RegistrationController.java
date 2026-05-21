@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.application.model.AuthResponse;
 import com.application.model.Doctor;
 import com.application.model.Slots;
 import com.application.model.User;
 import com.application.service.DoctorRegistrationService;
 import com.application.service.UserRegistrationService;
+import com.application.util.JwtUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RestController
@@ -30,6 +32,10 @@ public class RegistrationController
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	/** Used to mint a JWT immediately after a successful registration */
+	@Autowired
+	private JwtUtils jwtUtils;
 	
 	@PostMapping({"/registerUser", "/registeruser"})
 	public ResponseEntity<?> registerUser(@RequestBody User user)
@@ -40,15 +46,30 @@ public class RegistrationController
 			}
 			if(currEmail != null && !"".equals(currEmail))
 			{
-				User userObj = userRegisterService.fetchUserByEmail(currEmail);
-				if(userObj != null)
+				User existing = userRegisterService.fetchUserByEmail(currEmail);
+				if(existing != null)
 				{
 					return new ResponseEntity<>("User with "+currEmail+" already exists !!!", HttpStatus.CONFLICT);
 				}
 			}
+		// BCrypt-encode the plain-text password before persisting
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		User userObj = userRegisterService.saveUser(user);
-		return new ResponseEntity<User>(userObj, HttpStatus.OK);
+		User saved = userRegisterService.saveUser(user);
+
+		// Generate JWT using the saved email as the subject
+		String token = jwtUtils.generateToken(saved.getEmail());
+
+		// Build the unified auth response so the frontend can auto-login
+		AuthResponse response = new AuthResponse(
+			token,
+			saved.getEmail(),
+			saved.getUsername(),   // display name
+			"user",               // role for frontend routing
+			saved.getGender(),
+			saved.getAge(),
+			null                  // specialization not applicable for users
+		);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 	@PostMapping("/registerdoctor")
@@ -60,15 +81,30 @@ public class RegistrationController
 			}
 			if(currEmail != null && !"".equals(currEmail))
 			{
-				Doctor doctorObj = doctorRegisterService.fetchDoctorByEmail(currEmail);
-				if(doctorObj != null)
+				Doctor existing = doctorRegisterService.fetchDoctorByEmail(currEmail);
+				if(existing != null)
 				{
 					return new ResponseEntity<>("Doctor with "+currEmail+" already exists !!!", HttpStatus.CONFLICT);
 				}
 			}
+		// BCrypt-encode the plain-text password before persisting
 		doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
-		Doctor doctorObj = doctorRegisterService.saveDoctor(doctor);
-		return new ResponseEntity<Doctor>(doctorObj, HttpStatus.OK);
+		Doctor saved = doctorRegisterService.saveDoctor(doctor);
+
+		// Generate JWT using the saved email as the subject
+		String token = jwtUtils.generateToken(saved.getEmail());
+
+		// Build the unified auth response so the frontend can auto-login
+		AuthResponse response = new AuthResponse(
+			token,
+			saved.getEmail(),
+			saved.getDoctorname(),       // display name
+			"doctor",                   // role for frontend routing
+			saved.getGender(),
+			null,                       // age not applicable for doctors
+			saved.getSpecialization()
+		);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 	@PostMapping("/addDoctor")

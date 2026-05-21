@@ -98,8 +98,20 @@ public class UserController
 	@PutMapping("/updateuser")
 	public ResponseEntity<User> updateUserProfile(@RequestBody User user) throws Exception
 	{
-		User userobj = userRegisterService.updateUserProfile(user);
-		return new ResponseEntity<User>(userobj, HttpStatus.OK);
+		// Fetch the existing record so we never overwrite the BCrypt-hashed password
+		// with a plain-text or null value coming from the profile form
+		User existing = userRegisterService.fetchUserByEmail(user.getEmail());
+		if (existing != null) {
+			// Only allow safe fields to be updated — password stays untouched
+			existing.setUsername(user.getUsername());
+			existing.setGender(user.getGender());
+			existing.setAge(user.getAge());
+			existing.setMobile(user.getMobile());
+			existing.setAddress(user.getAddress());
+			User userobj = userRegisterService.updateUserProfile(existing);
+			return new ResponseEntity<User>(userobj, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
 	@PostMapping("/bookNewAppointment")

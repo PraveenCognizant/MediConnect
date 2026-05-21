@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.application.model.AuthRequest;
+import com.application.model.AuthResponse;
 import com.application.model.Doctor;
 import com.application.model.User;
 import com.application.service.DoctorRegistrationService;
@@ -72,7 +73,7 @@ public class LoginController
     }
 	
 	@PostMapping("/loginuser")
-	public User loginUser(@RequestBody User user) throws Exception
+	public ResponseEntity<?> loginUser(@RequestBody User user) throws Exception
 	{
 		String currEmail = user.getEmail();
 		String currPassword = user.getPassword();
@@ -89,12 +90,26 @@ public class LoginController
 		if(userObj == null)
 		{
 			throw new Exception("User does not exists!!! Please enter valid credentials...");
-		}		
-		return userObj;
+		}
+
+		// Generate a fresh JWT for this login session
+		String token = jwtUtil.generateToken(userObj.getEmail());
+
+		// Return the unified AuthResponse — same shape as registration response
+		AuthResponse response = new AuthResponse(
+			token,
+			userObj.getEmail(),
+			userObj.getUsername(),
+			"user",
+			userObj.getGender(),
+			userObj.getAge(),
+			null
+		);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 	@PostMapping("/logindoctor")
-	public Doctor loginDoctor(@RequestBody Doctor doctor) throws Exception
+	public ResponseEntity<?> loginDoctor(@RequestBody Doctor doctor) throws Exception
 	{
 		String currEmail = doctor.getEmail();
 		String currPassword = doctor.getPassword();
@@ -111,8 +126,22 @@ public class LoginController
 		if(doctorObj == null)
 		{
 			throw new Exception("User does not exists!!! Please enter valid credentials...");
-		}		
-		return doctorObj;
+		}
+
+		// Generate a fresh JWT for this login session
+		String token = jwtUtil.generateToken(doctorObj.getEmail());
+
+		// Return the unified AuthResponse — same shape as registration response
+		AuthResponse response = new AuthResponse(
+			token,
+			doctorObj.getEmail(),
+			doctorObj.getDoctorname(),
+			"doctor",
+			doctorObj.getGender(),
+			null,
+			doctorObj.getSpecialization()
+		);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 }

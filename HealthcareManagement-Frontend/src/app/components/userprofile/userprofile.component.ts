@@ -45,10 +45,17 @@ export class UserprofileComponent implements OnInit {
   }
 
   updateUserProfile() {
-    this._service.UpdateUserProfile(this.user).subscribe(
+    // Never send password through the profile update form
+    const payload = { ...this.user };
+    delete (payload as any).password;
+    this._service.UpdateUserProfile(payload as any).subscribe(
       data => {
         this.temp = true;
         this.currentUser = { ...this.user };
+        // Keep localStorage name in sync
+        localStorage.setItem('name', this.user.username || '');
+        localStorage.setItem('gender', this.user.gender || '');
+        localStorage.setItem('age', this.user.age || '');
         this.isEditing = false;
         setTimeout(() => { this.temp = false; }, 4000);
       },
