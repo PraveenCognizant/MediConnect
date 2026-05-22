@@ -1,67 +1,332 @@
 <div class="welcome-page">
 
-  <!-- Navbar -->
+  <!-- ══ NAVBAR ══════════════════════════════════════════════════════════ -->
   <nav class="welcome-nav">
-    <a class="welcome-brand" [routerLink]="['']">
+    <a class="welcome-brand" routerLink="/">
       <i class="fa fa-heartbeat"></i> MediConnect
     </a>
-    <div class="nav-actions">
-      <a class="nav-link-btn" onclick="location.href='#services'"><i class="fa fa-cog"></i> Services</a>
-      <a class="nav-link-btn" [routerLink]="['/login']"><i class="fa fa-sign-in"></i> Login</a>
-      <a class="nav-cta-btn" [routerLink]="['/registration']"><i class="fa fa-user-plus"></i> Create Account</a>
+    <div class="nav-links-center">
+      <a class="nav-link" href="#features">Features</a>
+      <a class="nav-link" href="#how-it-works">How It Works</a>
+      <a class="nav-link" href="#roles">For You</a>
+      <a class="nav-link" href="#reviews">Reviews</a>
+    </div>
+    <!-- Logged-OUT state -->
+    <div class="nav-actions" *ngIf="!isLoggedIn">
+      <a class="nav-link-btn" routerLink="/login"><i class="fa fa-sign-in"></i> Login</a>
+      <a class="nav-cta-btn" routerLink="/registration"><i class="fa fa-user-plus"></i> Sign Up Free</a>
+    </div>
+    <!-- Logged-IN state -->
+    <div class="nav-actions" *ngIf="isLoggedIn">
+      <span class="nav-greeting"><i class="fa fa-user-circle"></i> Hi, {{userName || userRole}}</span>
+      <button class="nav-cta-btn" (click)="goToDashboard()"><i class="fa fa-tachometer"></i> Go to Dashboard</button>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <div class="welcome-hero">
-    <div class="hero-text">
-      <span class="hero-tag">Digital Healthcare Platform</span>
-      <h1 class="hero-title">Welcome to<br><span>MediConnect</span></h1>
-      <p class="hero-desc">Book appointments, check slots, view prescriptions and manage your health records — all in one place.</p>
-      <div class="hero-actions">
-        <a class="hero-btn-primary" [routerLink]="['/registration']"><i class="fa fa-user-plus"></i> Get Started</a>
-        <a class="hero-btn-secondary" [routerLink]="['/login']"><i class="fa fa-sign-in"></i> Login</a>
+  <!-- ══ HERO ═════════════════════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-bg-orb hero-orb1"></div>
+    <div class="hero-bg-orb hero-orb2"></div>
+    <div class="hero-content">
+      <span class="hero-badge"><i class="fa fa-star"></i> &nbsp;Trusted by 10,000+ patients</span>
+      <h1 class="hero-title">Your Health,<br><span class="hero-highlight">Simplified.</span></h1>
+      <p class="hero-subtitle">Book appointments, view prescriptions, manage health records and connect with top-rated doctors — all from one secure platform.</p>
+
+      <!-- Logged OUT -->
+      <div class="hero-actions" *ngIf="!isLoggedIn">
+        <a class="hero-btn-primary" routerLink="/registration"><i class="fa fa-user-plus"></i> Get Started — It's Free</a>
+        <a class="hero-btn-secondary" routerLink="/login"><i class="fa fa-sign-in"></i> Sign In</a>
+      </div>
+      <!-- Logged IN -->
+      <div class="hero-actions" *ngIf="isLoggedIn">
+        <button class="hero-btn-primary" (click)="goToDashboard()"><i class="fa fa-tachometer"></i> Go to My Dashboard</button>
+      </div>
+
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="stat-num">10k+</div><div class="stat-label">Patients</div></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><div class="stat-num">500+</div><div class="stat-label">Doctors</div></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><div class="stat-num">98%</div><div class="stat-label">Satisfaction</div></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><div class="stat-num">24/7</div><div class="stat-label">Support</div></div>
       </div>
     </div>
-    <div class="hero-image">
-      <img [src]="'assets/img/healthcaresystem.png'" alt="Healthcare">
+    <div class="hero-visual">
+      <img src="assets/img/healthcaresystem.png" alt="Healthcare" class="hero-img">
+      <div class="hero-float-card card1"><i class="fa fa-calendar-check-o"></i> Appointment Confirmed</div>
+      <div class="hero-float-card card2"><i class="fa fa-file-text-o"></i> Prescription Ready</div>
+      <div class="hero-float-card card3"><i class="fa fa-user-md"></i> Doctor Online</div>
     </div>
+  </section>
+
+  <!-- ══ MARQUEE ═══════════════════════════════════════════════════════════ -->
+  <div class="marquee-bar">
+    <marquee direction="left">
+      <i class="fa fa-heartbeat"></i>&nbsp; MediConnect — Redefining Healthcare &nbsp;|&nbsp;
+      <i class="fa fa-calendar-check-o"></i>&nbsp; Instant Appointment Booking &nbsp;|&nbsp;
+      <i class="fa fa-file-text-o"></i>&nbsp; Digital Prescriptions &nbsp;|&nbsp;
+      <i class="fa fa-user-md"></i>&nbsp; 500+ Verified Doctors &nbsp;|&nbsp;
+      <i class="fa fa-shield"></i>&nbsp; 100% Secure &amp; Private &nbsp;|&nbsp;
+      <i class="fa fa-clock-o"></i>&nbsp; 24/7 Access &nbsp;|&nbsp;
+      <i class="fa fa-stethoscope"></i>&nbsp; Trusted by 10,000+ Patients
+    </marquee>
   </div>
 
-  <!-- Marquee -->
-  <div class="welcome-marquee">
-    <marquee direction="left"><i class="fa fa-bell"></i>&nbsp; Welcome to MediConnect &mdash; Your trusted digital healthcare platform. Book appointments, check slots, view prescriptions and manage your health records all in one place.</marquee>
-  </div>
+  <!-- ══ FEATURES ══════════════════════════════════════════════════════════ -->
+  <section id="features" class="features-section">
+    <div class="section-header">
+      <span class="section-tag">What We Offer</span>
+      <h2>Everything you need in one place</h2>
+      <p>MediConnect brings the entire healthcare journey online — from discovery to diagnosis.</p>
+    </div>
+    <div class="features-grid">
 
-  <!-- Services / Roles Section -->
-  <section id="services" class="roles-section">
-    <div class="roles-header">
-      <h2>Three Roles, One Platform</h2>
-      <p>Login with your role or create a new account to get started</p>
+      <div class="feature-card">
+        <div class="feature-icon teal"><i class="fa fa-calendar-plus-o"></i></div>
+        <h3>Smart Appointment Booking</h3>
+        <p>Browse available slots in real time, select your preferred doctor and time, and confirm your appointment in under 60 seconds. Receive instant status updates.</p>
+        <ul class="feature-list">
+          <li><i class="fa fa-check"></i> Real-time slot availability</li>
+          <li><i class="fa fa-check"></i> Doctor-wise filtering</li>
+          <li><i class="fa fa-check"></i> Instant booking confirmation</li>
+        </ul>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon blue"><i class="fa fa-file-text-o"></i></div>
+        <h3>Digital Prescriptions</h3>
+        <p>Your prescriptions are stored digitally and accessible from anywhere. Never lose a prescription again — view, download and share with pharmacies effortlessly.</p>
+        <ul class="feature-list">
+          <li><i class="fa fa-check"></i> Permanent prescription history</li>
+          <li><i class="fa fa-check"></i> Doctor-signed digital records</li>
+          <li><i class="fa fa-check"></i> Accessible from any device</li>
+        </ul>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon purple"><i class="fa fa-user-md"></i></div>
+        <h3>Verified Doctor Profiles</h3>
+        <p>Every doctor on MediConnect is verified by our admin team before they can accept patients. Browse by specialization, experience and availability.</p>
+        <ul class="feature-list">
+          <li><i class="fa fa-check"></i> Admin-verified credentials</li>
+          <li><i class="fa fa-check"></i> Specialization search</li>
+          <li><i class="fa fa-check"></i> Experience & hospital history</li>
+        </ul>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon orange"><i class="fa fa-shield"></i></div>
+        <h3>Secure Health Records</h3>
+        <p>All patient data is protected with JWT-based authentication and BCrypt password encryption. Your health records are private and accessible only by you.</p>
+        <ul class="feature-list">
+          <li><i class="fa fa-check"></i> JWT token authentication</li>
+          <li><i class="fa fa-check"></i> BCrypt password encryption</li>
+          <li><i class="fa fa-check"></i> Role-based access control</li>
+        </ul>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon green"><i class="fa fa-clock-o"></i></div>
+        <h3>Real-Time Slot Tracking</h3>
+        <p>Check slot availability for any doctor before booking. Slots show Available, Pending (awaiting approval) or Booked — so you always know what's free.</p>
+        <ul class="feature-list">
+          <li><i class="fa fa-check"></i> Live slot status updates</li>
+          <li><i class="fa fa-check"></i> No double-booking ever</li>
+          <li><i class="fa fa-check"></i> Pending vs confirmed clarity</li>
+        </ul>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon red"><i class="fa fa-line-chart"></i></div>
+        <h3>Admin Control Dashboard</h3>
+        <p>A powerful admin panel to approve/reject doctors, monitor patients, view all appointments and manage the entire hospital ecosystem from one screen.</p>
+        <ul class="feature-list">
+          <li><i class="fa fa-check"></i> Doctor approval workflow</li>
+          <li><i class="fa fa-check"></i> Patient & appointment overview</li>
+          <li><i class="fa fa-check"></i> Full system analytics</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ HOW IT WORKS ═══════════════════════════════════════════════════════ -->
+  <section id="how-it-works" class="how-section">
+    <div class="section-header light">
+      <span class="section-tag light">Simple Steps</span>
+      <h2>Get started in 3 easy steps</h2>
+      <p>From registration to your first appointment — it takes less than 5 minutes.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">01</div>
+        <div class="step-icon"><i class="fa fa-user-plus"></i></div>
+        <h3>Create Your Account</h3>
+        <p>Sign up as a Patient or Doctor in under a minute. Fill in your details, set a secure password, and you're in.</p>
+      </div>
+      <div class="step-arrow"><i class="fa fa-arrow-right"></i></div>
+      <div class="step-card">
+        <div class="step-number">02</div>
+        <div class="step-icon"><i class="fa fa-search"></i></div>
+        <h3>Find a Doctor & Slot</h3>
+        <p>Browse verified doctors by specialization, check their real-time slot availability, and pick a date and time that works for you.</p>
+      </div>
+      <div class="step-arrow"><i class="fa fa-arrow-right"></i></div>
+      <div class="step-card">
+        <div class="step-number">03</div>
+        <div class="step-icon"><i class="fa fa-calendar-check-o"></i></div>
+        <h3>Book & Track</h3>
+        <p>Confirm your booking. The doctor reviews and approves it. Track your appointment status and receive your prescription digitally.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ ROLES ═════════════════════════════════════════════════════════════ -->
+  <section id="roles" class="roles-section">
+    <div class="section-header">
+      <span class="section-tag">Built For Everyone</span>
+      <h2>One platform, three powerful roles</h2>
+      <p>Whether you are a patient, doctor, or hospital administrator — MediConnect has you covered.</p>
     </div>
     <div class="roles-grid">
 
       <div class="role-card admin-card" (click)="navigate()">
         <div class="role-card-icon"><i class="fa fa-shield"></i></div>
         <h3>Admin</h3>
-        <p>Manage doctors, users and hospital operations from a central dashboard</p>
+        <p>Full control of the platform. Approve doctors, monitor all appointments, manage users, and view system-wide analytics from a unified dashboard.</p>
+        <div class="role-features">
+          <span><i class="fa fa-check-circle"></i> Doctor approval</span>
+          <span><i class="fa fa-check-circle"></i> User management</span>
+          <span><i class="fa fa-check-circle"></i> System analytics</span>
+        </div>
         <span class="role-card-btn">Login as Admin <i class="fa fa-arrow-right"></i></span>
       </div>
 
       <div class="role-card doctor-card" (click)="navigate()">
         <div class="role-card-icon"><i class="fa fa-user-md"></i></div>
         <h3>Doctor</h3>
-        <p>Manage your schedule, patients, appointments and prescriptions</p>
+        <p>Manage your practice digitally. Set your available slots, review patient appointment requests, issue prescriptions and track treatment history.</p>
+        <div class="role-features">
+          <span><i class="fa fa-check-circle"></i> Schedule management</span>
+          <span><i class="fa fa-check-circle"></i> Patient approvals</span>
+          <span><i class="fa fa-check-circle"></i> Digital prescriptions</span>
+        </div>
         <span class="role-card-btn">Login as Doctor <i class="fa fa-arrow-right"></i></span>
       </div>
 
       <div class="role-card patient-card" (click)="navigate()">
         <div class="role-card-icon"><i class="fa fa-user"></i></div>
         <h3>Patient</h3>
-        <p>Book appointments, track health records and view prescriptions</p>
-        <span class="role-card-btn">Login as Patient <i class="fa fa-arrow-right"></i></span>
+        <p>Take control of your healthcare. Book appointments in real time, monitor approval status, access all your prescriptions and update your health profile.</p>
+        <div class="role-features">
+          <span><i class="fa fa-check-circle"></i> Appointment booking</span>
+          <span><i class="fa fa-check-circle"></i> Prescription access</span>
+          <span><i class="fa fa-check-circle"></i> Health profile</span>
+        </div>
+        <span class="role-card-btn">Get Started <i class="fa fa-arrow-right"></i></span>
       </div>
 
+    </div>
+  </section>
+
+  <!-- ══ REVIEWS ════════════════════════════════════════════════════════════ -->
+  <section id="reviews" class="reviews-section">
+    <div class="section-header light">
+      <span class="section-tag light">Testimonials</span>
+      <h2>What our users say</h2>
+      <p>Real feedback from patients and doctors who use MediConnect every day.</p>
+    </div>
+    <div class="reviews-grid">
+
+      <div class="review-card">
+        <div class="review-stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+        <p class="review-text">"MediConnect made booking a doctor so easy! I used to call clinics for 30 minutes just to get a slot. Now I do it in under a minute. The prescription history feature is a game changer."</p>
+        <div class="review-author">
+          <img src="assets/img/maleuser.png" class="review-avatar" alt="user">
+          <div>
+            <div class="review-name">Rohan Sharma</div>
+            <div class="review-role">Patient · Mumbai</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card featured">
+        <div class="review-stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+        <p class="review-text">"As a cardiologist, managing my appointment schedule used to be chaotic. MediConnect's slot system and digital prescriptions have saved me hours every week. Highly recommend it to every doctor."</p>
+        <div class="review-author">
+          <img src="assets/img/maledoctor.png" class="review-avatar" alt="doctor">
+          <div>
+            <div class="review-name">Dr. Priya Mehta</div>
+            <div class="review-role">Cardiologist · Pune</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i></div>
+        <p class="review-text">"The approval status tracking is brilliant. I knew exactly when my appointment was confirmed and could plan my day accordingly. The platform is clean, fast and very intuitive."</p>
+        <div class="review-author">
+          <img src="assets/img/femaleuser.png" class="review-avatar" alt="user">
+          <div>
+            <div class="review-name">Ananya Patel</div>
+            <div class="review-role">Patient · Bangalore</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+        <p class="review-text">"Managing 200+ doctors across our hospital was a nightmare before MediConnect. The admin dashboard gives us complete visibility into approvals, appointments and patient records instantly."</p>
+        <div class="review-author">
+          <img src="assets/img/maleuser.png" class="review-avatar" alt="admin">
+          <div>
+            <div class="review-name">Vikram Joshi</div>
+            <div class="review-role">Hospital Administrator · Delhi</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+        <p class="review-text">"I was skeptical at first, but MediConnect exceeded my expectations. The security is robust — my health data is completely private. The interface is beautiful and very easy to use."</p>
+        <div class="review-author">
+          <img src="assets/img/femaleuser.png" class="review-avatar" alt="user">
+          <div>
+            <div class="review-name">Sneha Kulkarni</div>
+            <div class="review-role">Patient · Hyderabad</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i></div>
+        <p class="review-text">"The real-time slot visibility is exactly what was missing from traditional booking systems. No more double-bookings, no more confusion. My patients love it too!"</p>
+        <div class="review-author">
+          <img src="assets/img/femaledoctor.png" class="review-avatar" alt="doctor">
+          <div>
+            <div class="review-name">Dr. Arjun Nair</div>
+            <div class="review-role">Neurologist · Chennai</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ CTA BANNER ════════════════════════════════════════════════════════ -->
+  <section class="cta-section">
+    <div class="cta-orb"></div>
+    <div class="cta-content">
+      <h2>Ready to transform your healthcare experience?</h2>
+      <p>Join thousands of patients and doctors already using MediConnect. It's free to get started.</p>
+      <div class="cta-actions" *ngIf="!isLoggedIn">
+        <a class="cta-btn-primary" routerLink="/registration"><i class="fa fa-user-plus"></i> Create Free Account</a>
+        <a class="cta-btn-secondary" routerLink="/login"><i class="fa fa-sign-in"></i> Login</a>
+      </div>
+      <div class="cta-actions" *ngIf="isLoggedIn">
+        <button class="cta-btn-primary" (click)="goToDashboard()"><i class="fa fa-tachometer"></i> Go to Dashboard</button>
+      </div>
     </div>
   </section>
 
