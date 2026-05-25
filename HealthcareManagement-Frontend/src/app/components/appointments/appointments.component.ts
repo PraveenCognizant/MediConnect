@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Appointment } from 'src/app/models/appointment';
 import { Slots } from 'src/app/models/slots';
 import { DoctorService } from 'src/app/services/doctor.service';
@@ -10,22 +9,52 @@ import { DoctorService } from 'src/app/services/doctor.service';
   styleUrls: ['./appointments.component.css']
 })
 export class AppointmentsComponent implements OnInit {
-  
+
   loggedUser = '';
   currRole = '';
-  appointments : Observable<Appointment[]> | undefined;
-  slots : Observable<Slots[]> | undefined;
+  appointments: Appointment[] = [];
+  slots: Slots[] = [];
+  actionLoading: { [id: number]: boolean } = {};
+  actionMessage: { [id: number]: string } = {};
 
-  constructor(private _service : DoctorService) { }
+  constructor(private _service: DoctorService) { }
 
-  ngOnInit(): void
-  {
+  ngOnInit(): void {
     this.loggedUser = (localStorage.getItem('loggedUser') || '').replace(/"/g, '');
-
     this.currRole = (localStorage.getItem('ROLE') || '').replace(/"/g, '');
-
-    this.appointments = this._service.getPatientListByDoctorEmail(this.loggedUser);
-    this.slots = this._service.getSlotDetails(this.loggedUser);
+    this.loadData();
   }
 
+  loadData(): void {
+    this._service.getPatientListByDoctorEmail(this.loggedUser).subscribe((data: Appointment[]) => {
+      this.appointments = data;
+    });
+    this._service.getSlotDetails(this.loggedUser).subscribe((data: Slots[]) => {
+      this.slots = data;
+    });
+  }
+
+  acceptAppointment(id: number): void {
+    this.actionLoading[id] = true;
+    this._service.acceptRequestForPatientApproval(id).subscribe({
+      next: () => {
+        this.actionLoading[id] = false;
+        this.actionMessage[id] = 'accepted';
+        this.loadData();
+      },
+      error: () => { this.actionLoading[id] = false; }
+    });
+  }
+
+  rejectAppointment(id: number): void {
+    this.actionLoading[id] = true;
+    this._service.rejectRequestForPatientApproval(id).subscribe({
+      next: () => {
+        this.actionLoading[id] = false;
+        this.actionMessage[id] = 'rejected';
+        this.loadData();
+      },
+      error: () => { this.actionLoading[id] = false; }
+    });
+  }
 }

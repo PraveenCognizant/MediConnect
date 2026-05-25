@@ -55,8 +55,37 @@ tbody td { padding: 8px 12px; border-bottom: 1px solid #e8edf5; color: #444; ver
   color: #1565c0; font-family: 'Inter', sans-serif; font-size: 14px; margin-bottom: 20px;
 }
 
+.id-badge { background: #e8f5e9; color: #2e7d32; padding: 2px 8px; border-radius: 8px; font-size: 11px; font-weight: 600; }
+.slot-pill { background: #e3f2fd; color: #1565c0; padding: 2px 8px; border-radius: 8px; font-size: 11px; font-weight: 600; }
+
+/* ── Appointment Info Guide (patient side) ─────────────────── */
+.appt-info-guide {
+  background: #f8fafc;
+  border: 1px solid #e0f2f1;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+}
+.info-guide-title {
+  font-size: 12.5px; font-weight: 700; color: #00695c;
+  margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+}
+.info-guide-items { display: flex; gap: 14px; flex-wrap: wrap; }
+.info-guide-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  flex: 1; min-width: 180px;
+  padding: 10px 14px; border-radius: 10px;
+}
+.info-guide-item .fa { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+.info-guide-item strong { display: block; font-size: 12.5px; margin-bottom: 3px; }
+.info-guide-item span { font-size: 11.5px; color: #718096; line-height: 1.5; }
+.pending-info  { background: #fff8e1; } .pending-info  .fa { color: #e65100; } .pending-info  strong { color: #e65100; }
+.accepted-info { background: #e8f5e9; } .accepted-info .fa { color: #2e7d32; } .accepted-info strong { color: #2e7d32; }
+.rejected-info { background: #fce4ec; } .rejected-info .fa { color: #c62828; } .rejected-info strong { color: #c62828; }
+
 @media (max-width: 768px) {
   .page-wrapper { padding: 20px 12px 48px; }
   .section-card { padding: 20px 16px; }
   thead th, tbody td { padding: 9px 10px; font-size: 13px; }
+  .info-guide-items { flex-direction: column; }
 }

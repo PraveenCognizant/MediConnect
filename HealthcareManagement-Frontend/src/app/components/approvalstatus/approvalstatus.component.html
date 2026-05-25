@@ -47,6 +47,34 @@
 
     <!-- ── USER VIEW ─────────────────────────── -->
     <ng-container *ngIf="currRole === 'user'">
+
+      <!-- Status Info Guide for Patients -->
+      <div class="appt-info-guide">
+        <div class="info-guide-title"><i class="fa fa-info-circle"></i>&nbsp; Understanding Your Appointment Status</div>
+        <div class="info-guide-items">
+          <div class="info-guide-item pending-info">
+            <i class="fa fa-clock-o"></i>
+            <div>
+              <strong>Awaiting Approval</strong>
+              <span>Your booking request has been sent to the doctor. The time slot is temporarily held for you. Please wait for the doctor to respond.</span>
+            </div>
+          </div>
+          <div class="info-guide-item accepted-info">
+            <i class="fa fa-check-circle"></i>
+            <div>
+              <strong>Accepted / Booked</strong>
+              <span>The doctor has approved your appointment. Your slot is now confirmed and fully booked for you.</span>
+            </div>
+          </div>
+          <div class="info-guide-item rejected-info">
+            <i class="fa fa-times-circle"></i>
+            <div>
+              <strong>Rejected</strong>
+              <span>The doctor has declined your request. The slot has been released and is now available for other patients. You may try booking a different slot.</span>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="table-responsive-wrapper">
         <table class="table table-bordered">
           <thead>
