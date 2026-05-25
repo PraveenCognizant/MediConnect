@@ -17,7 +17,7 @@ import { AddingdoctorComponent } from './components/addingdoctor/addingdoctor.co
 import { DoctorlistComponent } from './components/doctorlist/doctorlist.component';
 import { UserlistComponent } from './components/userlist/userlist.component';
 import { AppointmentsComponent } from './components/appointments/appointments.component';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
+
 import { UserprofileComponent } from './components/userprofile/userprofile.component';
 import { DoctorprofileComponent } from './components/doctorprofile/doctorprofile.component';
 import { PatientlistComponent } from './components/patientlist/patientlist.component';
@@ -63,8 +63,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    NgxPaginationModule,
-    MDBBootstrapModule.forRoot()
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]
