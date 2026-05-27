@@ -71,7 +71,6 @@ public class AppointmentBookingService
 		return 1;
 	}
 
-	/** Mark slot as PENDING while awaiting doctor approval */
 	public void setPendingAMSlot(String doctorname, String date) {
 		appointmentsRepository.setPendingAmstatus(doctorname, date);
 	}
@@ -84,7 +83,6 @@ public class AppointmentBookingService
 		appointmentsRepository.setPendingPmstatus(doctorname, date);
 	}
 
-	/** Restore slot to AVAILABLE when doctor rejects */
 	public void restoreAMSlot(String doctorname, String date) {
 		appointmentsRepository.restoreAmstatus(doctorname, date);
 	}

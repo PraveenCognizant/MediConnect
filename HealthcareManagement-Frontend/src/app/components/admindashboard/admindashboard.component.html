@@ -35,11 +35,6 @@
       <div class="text">Total Slots</div>
       <div class="sub-text" *ngFor="let slot of slots | async">{{slot}} slots available</div>
     </div>
-    <div class="dashboard-card card-danger">
-      <div class="circle"><i id="icons" class="fa fa-user-o"></i></div>
-      <div class="text">Total Patients</div>
-      <div class="sub-text" *ngFor="let patient of patients | async">{{patient}} patients</div>
-    </div>
     <div class="dashboard-card card-purple">
       <div class="circle"><i id="icons" class="fa fa-sticky-note"></i></div>
       <div class="text">Prescriptions</div>

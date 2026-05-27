@@ -11,4 +11,7 @@ public interface PrescriptionRepository extends CrudRepository<Prescription, Int
 
 	List<Prescription> findByPatientname(String patientname);
 
+	// Returns all prescriptions written by a specific doctor (matched by doctorname field)
+	List<Prescription> findByDoctorname(String doctorname);
+
 }

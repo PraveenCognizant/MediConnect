@@ -1,22 +1,18 @@
 package com.application.model;
 
-/**
- * Auth response returned exclusively for Doctor login and registration.
- * Contains only fields relevant to a doctor account.
- */
 public class DoctorAuthResponse {
 
     private String token;
     private String email;
     private String doctorname;
-    private String role;           // always "doctor"
+    private String role;
     private String gender;
     private String specialization;
     private String experience;
     private String previoushospital;
     private String mobile;
     private String address;
-    private String status;         // "pending" | "accepted" | "rejected"
+    private String status;
 
     public DoctorAuthResponse() {}
 

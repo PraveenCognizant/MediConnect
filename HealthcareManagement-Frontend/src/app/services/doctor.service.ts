@@ -136,4 +136,10 @@ public updateAppointmentStatus(id: number, status: string): Observable<any> {
     return this._http.post<any>(`${NAV_URL}/addPrescription`, prescription);
   }
 
+  // Fetches all prescriptions written by the logged-in doctor (keyed by email)
+  // Used in the patient list to show treatment details per patient
+  public getPrescriptionsByDoctorEmail(email: string): Observable<Prescription[]> {
+    return this._http.get<Prescription[]>(`${NAV_URL}/prescriptionsbydoctoremail/${email}`);
+  }
+
 }

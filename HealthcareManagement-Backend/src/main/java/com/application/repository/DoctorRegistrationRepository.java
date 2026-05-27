@@ -9,7 +9,6 @@ import com.application.model.Doctor;
 
 public interface DoctorRegistrationRepository extends CrudRepository<Doctor, String>
 {
-	
     public Doctor findByEmail(String email);
     
     public List<Doctor> findDoctorListByEmail(String email);

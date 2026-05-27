@@ -20,7 +20,8 @@ export class AppointmentsComponent implements OnInit {
   constructor(private _service: DoctorService) { }
 
   ngOnInit(): void {
-    this.loggedUser = (localStorage.getItem('loggedUser') || '').replace(/"/g, '');
+    // Use 'USER' key — this is what login.service.ts sets for all roles
+    this.loggedUser = (localStorage.getItem('USER') || '').replace(/"/g, '');
     this.currRole = (localStorage.getItem('ROLE') || '').replace(/"/g, '');
     this.loadData();
   }

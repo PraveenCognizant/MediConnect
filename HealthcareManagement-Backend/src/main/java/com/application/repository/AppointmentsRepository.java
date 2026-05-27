@@ -9,7 +9,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface AppointmentsRepository extends CrudRepository<Appointments,Integer>
 {
-	
 	public List<Appointments> findByEmail(String email);
 	
 	public List<Appointments> findBySlot(String slot);
@@ -31,7 +30,6 @@ public interface AppointmentsRepository extends CrudRepository<Appointments,Inte
 	@Query(value = "update slots set pmstatus = 'booked' where doctorname = ?1 and date = ?2", nativeQuery = true)
 	public void updatePmstatus(String doctorname, String date);
 
-	// ── Pending: slot is held while awaiting doctor approval ────────────────
 	@Transactional
 	@Modifying
 	@Query(value = "update slots set amstatus = 'pending' where doctorname = ?1 and date = ?2", nativeQuery = true)
@@ -47,7 +45,6 @@ public interface AppointmentsRepository extends CrudRepository<Appointments,Inte
 	@Query(value = "update slots set pmstatus = 'pending' where doctorname = ?1 and date = ?2", nativeQuery = true)
 	public void setPendingPmstatus(String doctorname, String date);
 
-	// ── Restore: free slot back to available when doctor rejects ────────────
 	@Transactional
 	@Modifying
 	@Query(value = "update slots set amstatus = 'unbooked' where doctorname = ?1 and date = ?2", nativeQuery = true)

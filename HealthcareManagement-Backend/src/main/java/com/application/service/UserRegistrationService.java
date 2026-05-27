@@ -64,21 +64,18 @@ public class UserRegistrationService implements UserDetailsService
 	
 	public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException
 	{
-		// Check User table first
 		User user = userRegistrationRepo.findByEmail(email);
 		if (user != null) {
 			return new org.springframework.security.core.userdetails.User(
 				user.getEmail(), user.getPassword(),
 				List.of(new SimpleGrantedAuthority("ROLE_USER")));
 		}
-		// Check Doctor table
 		Doctor doctor = doctorRegistrationRepo.findByEmail(email);
 		if (doctor != null) {
 			return new org.springframework.security.core.userdetails.User(
 				doctor.getEmail(), doctor.getPassword(),
 				List.of(new SimpleGrantedAuthority("ROLE_DOCTOR")));
 		}
-		// Check Admin table
 		Admin admin = adminRepository.findByEmail(email);
 		if (admin != null) {
 			return new org.springframework.security.core.userdetails.User(

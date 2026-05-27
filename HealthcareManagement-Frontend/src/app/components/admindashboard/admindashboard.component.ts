@@ -14,7 +14,6 @@ export class AdmindashboardComponent implements OnInit {
   gender = '';
   loggedUser = '';
   currRole = '';
-  patients : Observable<any[]> | undefined;
   users : Observable<any[]> | undefined;
   doctors : Observable<any[]> | undefined;
   slots : Observable<any[]> | undefined;
@@ -33,7 +32,6 @@ export class AdmindashboardComponent implements OnInit {
 
     this.currRole = (localStorage.getItem('ROLE') || '').replace(/"/g, '');
 
-    this.patients = this._service.getTotalPatients();
     this.users = this._service.getTotalUsers();
     this.doctors = this._service.getTotalDoctors();
     this.slots = this._service.getTotalSlots();

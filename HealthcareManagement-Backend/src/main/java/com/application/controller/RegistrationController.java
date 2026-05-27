@@ -34,7 +34,6 @@ public class RegistrationController
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	/** Used to mint a JWT immediately after a successful registration */
 	@Autowired
 	private JwtUtils jwtUtils;
 	
@@ -53,11 +52,9 @@ public class RegistrationController
 					return new ResponseEntity<>("User with "+currEmail+" already exists !!!", HttpStatus.CONFLICT);
 				}
 			}
-		// BCrypt-encode the plain-text password before persisting
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		User saved = userRegisterService.saveUser(user);
 
-		// Generate JWT using the saved email as the subject
 		String token = jwtUtils.generateToken(saved.getEmail());
 
 		UserAuthResponse response = new UserAuthResponse(
@@ -88,11 +85,9 @@ public class RegistrationController
 					return new ResponseEntity<>("Doctor with "+currEmail+" already exists !!!", HttpStatus.CONFLICT);
 				}
 			}
-		// BCrypt-encode the plain-text password before persisting
 		doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
 		Doctor saved = doctorRegisterService.saveDoctor(doctor);
 
-		// Generate JWT using the saved email as the subject
 		String token = jwtUtils.generateToken(saved.getEmail());
 
 		DoctorAuthResponse response = new DoctorAuthResponse(

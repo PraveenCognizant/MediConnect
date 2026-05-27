@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Appointment } from 'src/app/models/appointment';
+import { Prescription } from 'src/app/models/prescription';
 import { Doctor } from 'src/app/models/doctor';
 import { Slots } from 'src/app/models/slots';
 import { DoctorService } from 'src/app/services/doctor.service';
@@ -18,6 +19,9 @@ export class PatientlistComponent implements OnInit {
   slots : Observable<Slots[]> | undefined;
   responses : Observable<any> | undefined;
   http: any;
+
+  // Map of patientname → Prescription; populated after doctor's prescriptions are loaded
+  prescriptionMap: { [patientname: string]: Prescription } = {};
 
   constructor(private _service : DoctorService) { }
 
@@ -40,17 +44,23 @@ export class PatientlistComponent implements OnInit {
   //   this.slots = this._service.getSlotDetails(this.loggedUser);
   // }
 ngOnInit(): void {
-  // Clean up session retrieval
-  this.loggedUser = (localStorage.getItem('loggedUser') || '').replace(/"/g, '');
-  this.currRole = (localStorage.getItem('ROLE') || '').replace(/"/g, '');
+  // Read the correct localStorage keys set by login.service.ts
+  this.loggedUser = (localStorage.getItem('USER') || '').replace(/"/g, '');
+  this.currRole   = (localStorage.getItem('ROLE') || '').replace(/"/g, '');
 
-  // FIX: Change "user" to "doctor" (or "DOCTOR" based on your storage)
-  console.log("Current Role from session:", this.currRole); // Debugging line
   if (this.currRole.toLowerCase() === 'doctor') {
-    // This calls your filtered API
+    // Load only appointments belonging to this doctor
     this.patients = this._service.getPatientListByDoctorEmail(this.loggedUser);
+    // Load all prescriptions this doctor has written and build a quick-lookup map
+    this._service.getPrescriptionsByDoctorEmail(this.loggedUser).subscribe((list: Prescription[]) => {
+      this.prescriptionMap = {};
+      list.forEach(p => {
+        // Key by patient name so the template can do prescriptionMap[patient.patientname]
+        if (p.patientname) this.prescriptionMap[p.patientname] = p;
+      });
+    });
   } else {
-    // This likely shows everything (for Admins)
+    // Admin sees the full list across all doctors
     this.patients = this._service.getPatientList();
   }
 

@@ -61,39 +61,33 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
-            // Allow all preflight requests
             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-            // Public auth endpoints
             .requestMatchers("/", "/authenticate",
                 "/loginuser", "/logindoctor", "/loginadmin",
                 "/registerUser", "/registeruser", "/registerdoctor", "/registeradmin"
             ).permitAll()
-            // Public read-only data (needed before login for browsing doctors/slots)
             .requestMatchers(
                 "/doctorlist", "/getDoctorByEmail/**",
                 "/slotDetails/**", "/slotDetailsWithUniqueDoctors", "/slotDetailsWithUniqueSpecializations",
                 "/gettotaldoctors", "/gettotalslots", "/gettotalusers",
                 "/gettotalpatients", "/gettotalappointments", "/gettotalprescriptions"
             ).permitAll()
-            // Admin-only endpoints
             .requestMatchers(
                 "/userlist", "/patientlist",
                 "/acceptstatus/**", "/rejectstatus/**",
                 "/acceptpatient/**", "/rejectpatient/**",
                 "/addDoctor", "/approvedoctors"
             ).hasRole("ADMIN")
-            // Doctor-only endpoints
             .requestMatchers(
                 "/addBookingSlots", "/updateAppointmentStatus/**",
                 "/patientlistbydoctoremail/**", "/patientlistbydoctoremailanddate/**",
-                "/addPrescription", "/doctorProfileDetails/**", "/updatedoctor"
+                "/addPrescription", "/doctorProfileDetails/**", "/updatedoctor",
+                "/prescriptionsbydoctoremail/**"
             ).hasRole("DOCTOR")
-            // User-only endpoints
             .requestMatchers(
                 "/bookNewAppointment", "/patientlistbyemail/**",
                 "/profileDetails/**", "/updateuser", "/getprescriptionbyname/**"
             ).hasRole("USER")
-            // Any other request requires a valid JWT (any role)
             .anyRequest().authenticated())
         .exceptionHandling(exception -> exception.accessDeniedHandler(new AccessDeniedHandlerImpl()))
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -104,11 +98,9 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
     return http.build();
 }
 
-// 4. ADD THIS BEAN TO THE BOTTOM OF THE CLASS
 @Bean
 public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    // Allow any origin (wildcard pattern works with allowCredentials, sends back actual origin)
     configuration.setAllowedOriginPatterns(Arrays.asList("*"));
     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     configuration.setAllowedHeaders(Arrays.asList("*"));

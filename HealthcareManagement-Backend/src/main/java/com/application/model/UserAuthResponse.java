@@ -1,15 +1,11 @@
 package com.application.model;
 
-/**
- * Auth response returned exclusively for Patient/User login and registration.
- * Contains only fields relevant to a user account.
- */
 public class UserAuthResponse {
 
     private String token;
     private String email;
     private String username;
-    private String role;       // always "user"
+    private String role;
     private String gender;
     private String age;
     private String mobile;

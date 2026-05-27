@@ -16,12 +16,8 @@ import java.util.function.Function;
 @Service
 public class JwtUtils {
 
-    // IMPORTANT: JJWT 0.12.x requires a secret key that is at least 256 bits (32 characters/bytes) long for HS256.
-    // "examly" is too short and will throw an InvalidKeyException at runtime.
-    // Use a longer string like the one below:
     private final String secret = "examly_secure_secret_key_that_is_at_least_32_bytes_long";
 
-    // Helper method to generate a secure SecretKey object from your string
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
@@ -39,13 +35,12 @@ public class JwtUtils {
         return claimsResolver.apply(claims);
     }
 
-    // FIX: Updated for JJWT 0.12.5 fluent parser API
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
-                .verifyWith(getSigningKey()) // Replaced setSigningKey()
-                .build()                     // Creates the JwtParser
-                .parseSignedClaims(token)    // Replaced parseClaimsJws()
-                .getPayload();               // Replaced getBody()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
     private Boolean isTokenExpired(String token) {
@@ -57,14 +52,13 @@ public class JwtUtils {
         return createToken(claims, username);
     }
 
-    // FIX: Updated for JJWT 0.12.5 fluent builder API
     private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
-                .claims(claims)              // Replaced setClaims()
-                .subject(subject)            // Replaced setSubject()
+                .claims(claims)
+                .subject(subject)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
-                .signWith(getSigningKey())   // Replaced older signWith(Algorithm, secret) signature
+                .signWith(getSigningKey())
                 .compact();
     }
 

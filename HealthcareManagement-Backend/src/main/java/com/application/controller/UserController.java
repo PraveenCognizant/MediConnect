@@ -98,11 +98,8 @@ public class UserController
 	@PutMapping("/updateuser")
 	public ResponseEntity<User> updateUserProfile(@RequestBody User user) throws Exception
 	{
-		// Fetch the existing record so we never overwrite the BCrypt-hashed password
-		// with a plain-text or null value coming from the profile form
 		User existing = userRegisterService.fetchUserByEmail(user.getEmail());
 		if (existing != null) {
-			// Only allow safe fields to be updated — password stays untouched
 			existing.setUsername(user.getUsername());
 			existing.setGender(user.getGender());
 			existing.setAge(user.getAge());
@@ -144,7 +141,6 @@ public class UserController
 		}
 		if(obj.getDoctorname() != null && obj.getDoctorname().equals(appointments.getDoctorname()) && obj.getDate().equals(appointments.getDate()))
 		{
-			// Block if slot is already booked OR pending (held by another user awaiting approval)
 			if(appointments.getSlot().equalsIgnoreCase("AM slot") &&
 				(obj.getAmstatus().equalsIgnoreCase("booked") || obj.getAmstatus().equalsIgnoreCase("pending")))
 			{
@@ -166,14 +162,12 @@ public class UserController
 			throw new Exception("The Doctor have no slots on that date !!! Please check the slot availability and book again.");
 		}
 
-		// Set appointment status to 'pending' — awaiting doctor approval
 		appointment.setAppointmentstatus("pending");
 		appointments = appointmentBookingService.addNewAppointment(appointment);
 		
 		String patientID = getPatientID();
 		appointmentBookingService.updatePatientId(patientID,appointment.getDoctorname(),appointment.getPatientname(),appointment.getDate());
 		
-		// Mark slot as PENDING (not booked) — slot becomes booked only after doctor approves
 		if(appointment.getSlot().equalsIgnoreCase("Pm slot"))
 		{
 			appointmentBookingService.setPendingPMSlot(appointment.getDoctorname(), appointment.getDate());

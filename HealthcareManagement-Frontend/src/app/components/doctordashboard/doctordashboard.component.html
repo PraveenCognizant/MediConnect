@@ -33,11 +33,6 @@
       <div class="text">Total Doctors</div>
       <div class="sub-text" *ngFor="let doctor of doctors | async">{{doctor}} doctors</div>
     </div>
-    <div class="dashboard-card card-warm">
-      <div class="circle"><i id="icons" class="fa fa-user-o"></i></div>
-      <div class="text">Total Patients</div>
-      <div class="sub-text" *ngFor="let patient of patients | async">{{patient}} patients</div>
-    </div>
     <div class="dashboard-card card-navy">
       <div class="circle"><i id="icons" class="fa fa-calendar"></i></div>
       <div class="text">Total Slots</div>

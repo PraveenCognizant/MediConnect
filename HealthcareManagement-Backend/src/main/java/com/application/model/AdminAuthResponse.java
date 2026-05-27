@@ -1,15 +1,11 @@
 package com.application.model;
 
-/**
- * Auth response returned exclusively for Admin login and registration.
- * Contains only fields relevant to an admin account.
- */
 public class AdminAuthResponse {
 
     private String token;
     private String email;
     private String adminname;
-    private String role;   // always "admin"
+    private String role;
 
     public AdminAuthResponse() {}
 

@@ -26,4 +26,9 @@ public class PrescriptionService
 	{
 		return (List<Prescription>)prescriptionRepo.findAll();
 	}
+
+	public List<Prescription> getPrescriptionsByDoctorname(String doctorname)
+	{
+		return prescriptionRepo.findByDoctorname(doctorname);
+	}
 }

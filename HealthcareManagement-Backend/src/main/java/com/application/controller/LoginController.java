@@ -33,7 +33,7 @@ public class LoginController
 	@Autowired
     private JwtUtils jwtUtil;
 	
-    @Autowired
+	@Autowired
     private AuthenticationManager authenticationManager;
 	
 	@Autowired
@@ -93,14 +93,13 @@ public class LoginController
 			throw new Exception("User does not exists!!! Please enter valid credentials...");
 		}
 
-		// Generate a fresh JWT for this login session
 		String token = jwtUtil.generateToken(userObj.getEmail());
 
 		UserAuthResponse response = new UserAuthResponse(
 			token,
 			userObj.getEmail(),
 			userObj.getUsername(),
-			"user",
+			"user",           // Hardcoded role string for Angular's localStorage
 			userObj.getGender(),
 			userObj.getAge(),
 			userObj.getMobile(),
@@ -129,7 +128,6 @@ public class LoginController
 			throw new Exception("User does not exists!!! Please enter valid credentials...");
 		}
 
-		// Generate a fresh JWT for this login session
 		String token = jwtUtil.generateToken(doctorObj.getEmail());
 
 		DoctorAuthResponse response = new DoctorAuthResponse(
