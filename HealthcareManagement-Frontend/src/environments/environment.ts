@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiURL:  "http://localhost:8081"
+  apiURL:  "https://healthcaremanagementsystem-mediconnect.onrender.com"
 };
 
 /*
