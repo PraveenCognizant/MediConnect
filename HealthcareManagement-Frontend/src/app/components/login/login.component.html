@@ -82,8 +82,10 @@
             <label class="remember"><input type="checkbox" name="remember"> Remember me</label>
             <span class="forgot">Forgot password?</span>
           </div>
-          <button [disabled]="userloginform.form.invalid" type="submit" class="btn-login">Sign In</button>
-        </form>
+<button [disabled]="userloginform.form.invalid || loading" type="submit" class="btn-login">
+  <span *ngIf="!loading">Sign In</span>
+  <span *ngIf="loading"><i class="fa fa-spinner fa-spin"></i> Signing In...</span>
+</button>        </form>
       </div>
 
       <!-- Doctor Login -->
@@ -113,8 +115,10 @@
             <label class="remember"><input type="checkbox" name="remember"> Remember me</label>
             <span class="forgot">Forgot password?</span>
           </div>
-          <button [disabled]="doctorloginform.form.invalid" type="submit" class="btn-login">Sign In</button>
-        </form>
+<button [disabled]="doctorloginform.form.invalid || loading" type="submit" class="btn-login">
+  <span *ngIf="!loading">Sign In</span>
+  <span *ngIf="loading"><i class="fa fa-spinner fa-spin"></i> Signing In...</span>
+</button>        </form>
       </div>
 
       <!-- Admin Login -->
@@ -145,8 +149,10 @@
             <span></span>
             <span class="forgot">Forgot password?</span>
           </div>
-          <button [disabled]="adminloginform.form.invalid" type="submit" class="btn-login">Sign In</button>
-        </form>
+<button [disabled]="adminloginform.form.invalid || loading" type="submit" class="btn-login">
+  <span *ngIf="!loading">Sign In</span>
+  <span *ngIf="loading"><i class="fa fa-spinner fa-spin"></i> Signing In...</span>
+</button>        </form>
       </div>
 
     </div>
