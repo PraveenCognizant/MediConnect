@@ -1,0 +1,21 @@
+﻿<nav class="app-navbar" (click)="onNavClick($event)">
+  <div class="navbar-inner">
+    <div class="navbar-brand" (click)="navigateHome()">
+      <i class="fa fa-heartbeat brand-icon"></i>
+      <span>{{title}}</span>
+    </div>
+    <div class="navbar-right">
+      <span class="nav-welcome"><i class="fa fa-user-circle-o"></i> {{loggedUser}}</span>
+      <a class="nav-btn" (click)="navigateHome()"><i class="fa fa-home"></i> Home</a>
+      <div class="nav-dropdown" #dropdownRef>
+        <button class="nav-btn nav-profile-btn" (click)="toggleDropdown($event)">
+          <i class="fa fa-user"></i> {{currRole}} <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="nav-dropdown-menu" [class.open]="dropdownOpen">
+          <span class="dropdown-role-label">{{currRole | titlecase}}</span>
+          <a class="dropdown-item-link" (click)="logout()"><i class="fa fa-sign-out"></i> Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

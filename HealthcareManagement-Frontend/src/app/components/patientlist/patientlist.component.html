@@ -1,0 +1,185 @@
+<app-header></app-header>
+
+<div class="pl-page">
+
+  <!-- ── Page Header ── -->
+  <div class="pl-header">
+    <div class="pl-header-left">
+      <div class="pl-icon"><i class="fa fa-users"></i></div>
+      <div>
+        <h2 class="pl-title">Patient List</h2>
+        <p class="pl-subtitle" *ngIf="currRole === 'doctor' || currRole === 'DOCTOR'">Showing only your patients</p>
+        <p class="pl-subtitle" *ngIf="currRole !== 'doctor' && currRole !== 'DOCTOR'">All appointment records across the platform</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Status Legend ── -->
+  <div class="pl-legend">
+    <div class="legend-title"><i class="fa fa-info-circle"></i> Column Guide</div>
+    <div class="legend-items">
+      <div class="legend-item">
+        <span class="legend-dot accepted-dot"></span>
+        <div><strong>Accepted</strong><p>Appointment approved by the doctor.</p></div>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot pending-dot"></span>
+        <div><strong>Pending</strong><p>Waiting for doctor approval.</p></div>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot rejected-dot"></span>
+        <div><strong>Rejected</strong><p>Appointment declined by the doctor.</p></div>
+      </div>
+      <div class="legend-item" *ngIf="currRole === 'doctor' || currRole === 'DOCTOR'">
+        <span class="legend-dot rx-dot"></span>
+        <div><strong>Treated</strong><p>Prescription has been issued to the patient.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Table ── -->
+  <div class="pl-table-wrap">
+    <table class="pl-table">
+      <thead>
+        <tr>
+          <th>Patient</th>
+          <th>Age / Gender</th>
+          <th>Slot</th>
+          <th>Date</th>
+          <th>Problem</th>
+          <th>Approval</th>
+          <th>Treatment</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let patient of patients | async">
+
+          <!-- PATIENT avatar + name + id -->
+          <td>
+            <div class="pt-cell">
+              <div class="pt-avatar">
+                <img *ngIf="patient.gender === 'Male' || patient.gender === 'male'" src="assets/img/maleuser.png" alt="patient">
+                <img *ngIf="patient.gender === 'Female' || patient.gender === 'female'" src="assets/img/femaleuser.png" alt="patient">
+              </div>
+              <div>
+                <div class="pt-name">{{patient.patientname}}</div>
+                <div class="pt-id">#{{patient.patientid}}</div>
+              </div>
+            </div>
+          </td>
+
+          <!-- AGE / GENDER -->
+          <td class="pt-minor">{{patient.age}} yrs / {{patient.gender}}</td>
+
+          <!-- SLOT -->
+          <td>
+            <span class="slot-badge am"   *ngIf="patient.slot === 'AM slot'"><i class="fa fa-sun-o"></i> AM</span>
+            <span class="slot-badge noon" *ngIf="patient.slot === 'Noon slot'"><i class="fa fa-cloud"></i> Noon</span>
+            <span class="slot-badge pm"   *ngIf="patient.slot === 'PM slot'"><i class="fa fa-moon-o"></i> PM</span>
+            <span class="slot-badge"      *ngIf="patient.slot !== 'AM slot' && patient.slot !== 'Noon slot' && patient.slot !== 'PM slot'">{{patient.slot}}</span>
+          </td>
+
+          <!-- DATE -->
+          <td class="pt-minor">{{patient.date}}</td>
+
+          <!-- PROBLEM -->
+          <td class="pt-problem">{{patient.problem}}</td>
+
+          <!-- APPROVAL COLUMN -->
+          <td>
+            <!-- ADMIN VIEW: read-only status badge -->
+            <ng-container *ngIf="currRole === 'admin' || currRole === 'ADMIN'">
+              <span *ngIf="patient.appointmentstatus === 'accept'" class="status-pill accepted">&#10003; Accepted</span>
+              <span *ngIf="patient.appointmentstatus === 'false'" class="status-pill pending">Pending</span>
+              <span *ngIf="patient.appointmentstatus === 'reject'" class="status-pill rejected">&#10007; Rejected</span>
+            </ng-container>
+
+            <!-- DOCTOR VIEW: action buttons for pending, update dropdown for processed -->
+            <ng-container *ngIf="currRole === 'doctor' || currRole === 'DOCTOR'">
+
+              <!-- Pending: show Accept / Reject buttons -->
+              <div *ngIf="patient.appointmentstatus === 'false'" class="action-btns">
+                <button (click)="acceptRequest(patient)" class="btn-accept">&#10003; Accept</button>
+                <button (click)="rejectRequest(patient)" class="btn-reject">&#10007; Reject</button>
+              </div>
+
+              <!-- Accepted: show badge + Update dropdown -->
+              <div *ngIf="patient.appointmentstatus === 'accept'" class="status-update-row">
+                <span class="status-pill accepted">&#10003; Accepted</span>
+                <select class="status-select" (change)="updateAppointmentStatus(patient, $any($event.target).value)">
+                  <option value="" disabled selected>Update</option>
+                  <option value="reject">&#10007; Reject</option>
+                  <option value="false">Reset to Pending</option>
+                </select>
+              </div>
+
+              <!-- Rejected: show badge + Update dropdown -->
+              <div *ngIf="patient.appointmentstatus === 'reject'" class="status-update-row">
+                <span class="status-pill rejected">&#10007; Rejected</span>
+                <select class="status-select" (change)="updateAppointmentStatus(patient, $any($event.target).value)">
+                  <option value="" disabled selected>Update</option>
+                  <option value="accept">&#10003; Accept</option>
+                  <option value="false">Reset to Pending</option>
+                </select>
+              </div>
+
+            </ng-container>
+          </td>
+
+          <!-- TREATMENT STATUS -->
+          <td>
+            <!-- DOCTOR VIEW: show prescription card if treated, else "yet to be treated" -->
+            <ng-container *ngIf="currRole === 'doctor' || currRole === 'DOCTOR'">
+
+              <!-- Prescription exists → patient has been treated -->
+              <div *ngIf="prescriptionMap[patient.patientname]; else notTreated" class="rx-card">
+                <div class="rx-header">
+                  <i class="fa fa-file-medical"></i>
+                  <span class="rx-label">Prescription</span>
+                  <span class="status-pill accepted rx-status">&#10003; Treated</span>
+                </div>
+                <div class="rx-row">
+                  <span class="rx-key">Disease</span>
+                  <span class="rx-val">{{prescriptionMap[patient.patientname].disease}}</span>
+                </div>
+                <div class="rx-row">
+                  <span class="rx-key">Medicine</span>
+                  <span class="rx-val">{{prescriptionMap[patient.patientname].prescription}}</span>
+                </div>
+                <div class="rx-row">
+                  <span class="rx-key">Prescribed on</span>
+                  <span class="rx-val">{{prescriptionMap[patient.patientname].date}}</span>
+                </div>
+              </div>
+
+              <!-- No prescription → yet to be treated -->
+              <ng-template #notTreated>
+                <span class="status-pill yet-pill">
+                  <i class="fa fa-clock-o"></i>&nbsp; Yet to be Treated
+                </span>
+              </ng-template>
+
+            </ng-container>
+
+            <!-- ADMIN VIEW: simple text status -->
+            <ng-container *ngIf="currRole === 'admin' || currRole === 'ADMIN'">
+              <span *ngIf="patient.treatmentstatus === 'accept'" class="status-pill accepted">&#10003; Treated</span>
+              <span *ngIf="patient.treatmentstatus !== 'accept'" class="status-pill pending">Pending</span>
+            </ng-container>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Empty state -->
+    <div class="pl-empty" *ngIf="(patients | async)?.length === 0">
+      <i class="fa fa-calendar-times-o"></i>
+      <p>No patient records found.</p>
+    </div>
+  </div>
+
+</div>
+
+<app-footer></app-footer>

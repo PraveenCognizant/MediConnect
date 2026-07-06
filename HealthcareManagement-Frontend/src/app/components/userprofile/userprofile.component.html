@@ -1,0 +1,155 @@
+﻿<app-header></app-header>
+
+<div class="profile-page">
+  <div class="profile-container">
+
+    <!-- ── Left: Identity Card ───────────────────────────────────── -->
+    <div class="identity-card">
+      <div class="avatar-ring">
+        <img *ngIf="currentUser.gender === 'Male' || currentUser.gender === 'male'"
+             src="assets/img/maleuser.png" class="avatar-img" alt="avatar">
+        <img *ngIf="currentUser.gender === 'Female' || currentUser.gender === 'female'"
+             src="assets/img/femaleuser.png" class="avatar-img" alt="avatar">
+        <img *ngIf="currentUser.gender !== 'Male' && currentUser.gender !== 'male' &&
+                    currentUser.gender !== 'Female' && currentUser.gender !== 'female'"
+             src="assets/img/maleuser.png" class="avatar-img" alt="avatar">
+      </div>
+
+      <div class="id-name">{{ currentUser.username || loggedUser }}</div>
+      <div class="id-email"><i class="fa fa-envelope-o"></i>&nbsp;{{ currentUser.email }}</div>
+
+      <div class="id-badges">
+        <span class="badge-pill"><i class="fa fa-venus-mars"></i>&nbsp;{{ currentUser.gender || '—' }}</span>
+        <span class="badge-pill"><i class="fa fa-birthday-cake"></i>&nbsp;{{ currentUser.age ? currentUser.age + ' yrs' : '—' }}</span>
+      </div>
+
+      <div class="id-detail-list">
+        <div class="id-detail-row">
+          <span class="id-detail-label"><i class="fa fa-phone"></i>&nbsp;Mobile</span>
+          <span class="id-detail-val">{{ currentUser.mobile || '—' }}</span>
+        </div>
+        <div class="id-detail-row">
+          <span class="id-detail-label"><i class="fa fa-map-marker"></i>&nbsp;Address</span>
+          <span class="id-detail-val address-val">{{ currentUser.address || '—' }}</span>
+        </div>
+      </div>
+
+      <button class="edit-btn" (click)="editProfile()">
+        <i class="fa fa-pencil"></i>&nbsp; Edit Profile
+      </button>
+
+      <div class="success-toast" *ngIf="temp">
+        <i class="fa fa-check-circle"></i>&nbsp; Profile updated successfully!
+      </div>
+    </div>
+
+    <!-- ── Right: Edit Form ──────────────────────────────────────── -->
+    <div class="form-panel">
+
+      <!-- Placeholder when not editing -->
+      <div class="form-placeholder" *ngIf="!isEditing">
+        <div class="placeholder-icon"><i class="fa fa-id-card-o"></i></div>
+        <p class="placeholder-title">Your Profile</p>
+        <p class="placeholder-sub">Click <strong>Edit Profile</strong> on the left to update your information.</p>
+      </div>
+
+      <!-- Edit Form -->
+      <div *ngIf="isEditing">
+        <div class="form-header">
+          <div class="form-header-icon-wrap"><i class="fa fa-edit"></i></div>
+          <div>
+            <div class="form-title">Update Profile</div>
+            <div class="form-subtitle">Edit your details below and save changes</div>
+          </div>
+        </div>
+
+        <form #Updateform="ngForm" (ngSubmit)="updateUserProfile()">
+
+          <!-- Row 1: Email (readonly) + Username -->
+          <div class="form-row-2">
+            <div class="form-field">
+              <label class="field-label">Email Address</label>
+              <div class="readonly-wrap">
+                <i class="fa fa-lock readonly-icon"></i>
+                <input type="email" class="form-control field-input readonly-input"
+                       name="email" [(ngModel)]="user.email" readonly>
+              </div>
+              <small class="field-hint"><i class="fa fa-info-circle"></i> Email cannot be changed</small>
+            </div>
+            <div class="form-field">
+              <label class="field-label">Full Name <span class="req">*</span></label>
+              <input type="text" class="form-control field-input"
+                     placeholder="Enter your full name"
+                     name="username" [(ngModel)]="user.username" required
+                     #username="ngModel"
+                     [class.is-invalid]="username.invalid && username.touched">
+              <small class="field-err" *ngIf="username.invalid && username.touched">Name is required</small>
+            </div>
+          </div>
+
+          <!-- Row 2: Gender + Age -->
+          <div class="form-row-2">
+            <div class="form-field">
+              <label class="field-label">Gender <span class="req">*</span></label>
+              <select class="form-control field-input"
+                      name="gender" [(ngModel)]="user.gender" required>
+                <option value="" disabled>Select gender</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Others</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label class="field-label">Age <span class="req">*</span></label>
+              <input type="number" class="form-control field-input"
+                     placeholder="e.g. 28"
+                     name="age" [(ngModel)]="user.age" required min="1" max="120"
+                     #age="ngModel"
+                     [class.is-invalid]="age.invalid && age.touched">
+              <small class="field-err" *ngIf="age.invalid && age.touched">Valid age is required</small>
+            </div>
+          </div>
+
+          <!-- Row 3: Mobile (full width) -->
+          <div class="form-row-1">
+            <div class="form-field">
+              <label class="field-label">Mobile Number <span class="req">*</span></label>
+              <input type="tel" class="form-control field-input"
+                     placeholder="10-digit mobile number starting with 6-9"
+                     name="mobile" [(ngModel)]="user.mobile" required
+                     pattern="^[6-9][0-9]{9}$"
+                     #mobile="ngModel"
+                     [class.is-invalid]="mobile.invalid && mobile.touched">
+              <small class="field-err" *ngIf="mobile.errors?.['required'] && mobile.touched">Mobile is required</small>
+              <small class="field-err" *ngIf="mobile.errors?.['pattern'] && mobile.touched">Enter a valid 10-digit mobile number</small>
+            </div>
+          </div>
+
+          <!-- Row 4: Address (full width) -->
+          <div class="form-row-1">
+            <div class="form-field">
+              <label class="field-label">Address</label>
+              <textarea class="form-control field-input field-textarea"
+                        placeholder="House no., Street, City, State"
+                        name="address" [(ngModel)]="user.address" rows="3"></textarea>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button [disabled]="Updateform.form.invalid" type="submit" class="btn-save">
+              <i class="fa fa-save"></i>&nbsp; Save Changes
+            </button>
+            <button type="button" class="btn-cancel" (click)="cancelEdit()">
+              <i class="fa fa-times"></i>&nbsp; Cancel
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<app-footer></app-footer>

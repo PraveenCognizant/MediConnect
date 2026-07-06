@@ -1,0 +1,21 @@
+# --- Backend (HealthcareManagement-Backend) ---
+HealthcareManagement-Backend/target/
+HealthcareManagement-Backend/.env
+HealthcareManagement-Backend/*.class
+HealthcareManagement-Backend/*.log
+HealthcareManagement-Backend/.mvn/
+HealthcareManagement-Backend/mvnw
+HealthcareManagement-Backend/mvnw.cmd
+
+# --- Frontend (HealthcareManagement-Frontend) ---
+HealthcareManagement-Frontend/node_modules/
+HealthcareManagement-Frontend/dist/
+HealthcareManagement-Frontend/.angular/
+HealthcareManagement-Frontend/npm-debug.log*
+
+# --- IDE & System Files ---
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db

@@ -1,0 +1,200 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap');
+
+/* ── Page layout ───────────────────────────────────── */
+.appts-page {
+  min-height: calc(100vh - 60px);
+  background: #f0f4f8;
+  padding: 22px 28px 48px;
+  font-family: "Inter", sans-serif;
+}
+
+/* ── Page header bar ───────────────────────────────── */
+.appts-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.appts-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.appts-icon {
+  width: 40px; height: 40px;
+  background: linear-gradient(135deg, #004d40, #00695c);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 18px;
+  flex-shrink: 0;
+}
+.appts-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 16px; font-weight: 700;
+  color: #004d40; margin: 0;
+}
+.appts-subtitle {
+  font-size: 11px; color: #718096; margin: 2px 0 0;
+}
+
+/* ── Table wrapper ─────────────────────────────────── */
+.appts-table-wrap {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  overflow-x: auto;
+}
+
+/* ── Table ─────────────────────────────────────────── */
+.appts-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+.appts-table thead tr {
+  background: linear-gradient(135deg, #004d40, #00695c);
+}
+.appts-table thead th {
+  color: #fff;
+  padding: 11px 14px;
+  font-weight: 600;
+  font-size: 11.5px;
+  letter-spacing: 0.03em;
+  text-align: left;
+  white-space: nowrap;
+}
+.appts-table tbody tr {
+  border-bottom: 1px solid #f0f4f8;
+  transition: background 0.15s;
+}
+.appts-table tbody tr:hover { background: #f0faf8; }
+.appts-table tbody tr:nth-child(even) { background: #fafcfb; }
+.appts-table tbody tr:nth-child(even):hover { background: #f0faf8; }
+.appts-table tbody td {
+  padding: 10px 14px;
+  color: #4a5568;
+  vertical-align: middle;
+}
+
+/* ── Patient cell ──────────────────────────────────── */
+.pt-cell {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.pt-avatar {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #e0f2f1;
+  flex-shrink: 0;
+  background: #f0f4f8;
+}
+.pt-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.pt-name { font-weight: 600; color: #1a202c; font-size: 12.5px; }
+.pt-id { font-size: 10.5px; color: #00695c; font-weight: 500; }
+.pt-email { color: #4a5568; font-size: 12px; }
+.pt-minor { color: #718096; font-size: 12px; white-space: nowrap; }
+.pt-problem { max-width: 160px; font-size: 12px; }
+
+/* ── Count badge ───────────────────────────────────── */
+.count-badge {
+  background: #e0f2f1; color: #00695c;
+  font-size: 12px; font-weight: 700;
+  padding: 5px 14px; border-radius: 20px;
+}
+
+/* ── Status Legend ─────────────────────────────────── */
+.status-legend {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e0f2f1;
+  padding: 16px 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+}
+.legend-title {
+  font-size: 12.5px; font-weight: 700; color: #00695c;
+  margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+}
+.legend-items {
+  display: flex; gap: 28px; flex-wrap: wrap;
+}
+.legend-item {
+  display: flex; align-items: flex-start; gap: 10px; flex: 1; min-width: 200px;
+}
+.legend-dot {
+  width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; margin-top: 3px;
+}
+.pending-dot  { background: #e65100; }
+.accepted-dot { background: #2e7d32; }
+.rejected-dot { background: #c62828; }
+.legend-item strong { font-size: 12.5px; color: #1a202c; display: block; margin-bottom: 2px; }
+.legend-item p { font-size: 11.5px; color: #718096; margin: 0; line-height: 1.5; }
+
+/* ── Slot badge ────────────────────────────────────── */
+.slot-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.slot-badge.am   { background: #fff8e1; color: #e65100; }
+.slot-badge.noon { background: #e3f2fd; color: #1565c0; }
+.slot-badge.pm   { background: #f3e5f5; color: #6a1b9a; }
+
+/* ── Action Buttons ────────────────────────────────── */
+.action-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+.btn-accept, .btn-reject {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 12px; border-radius: 8px;
+  font-size: 11.5px; font-weight: 700;
+  border: none; cursor: pointer; transition: all 0.2s;
+  white-space: nowrap;
+}
+.btn-accept { background: #e8f5e9; color: #2e7d32; }
+.btn-accept:hover:not(:disabled) { background: #2e7d32; color: #fff; transform: translateY(-1px); }
+.btn-reject { background: #fce4ec; color: #c62828; }
+.btn-reject:hover:not(:disabled) { background: #c62828; color: #fff; transform: translateY(-1px); }
+.btn-accept:disabled, .btn-reject:disabled { opacity: 0.6; cursor: not-allowed; }
+.action-done { font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+.action-done.accepted { color: #2e7d32; }
+.action-done.rejected { color: #c62828; }
+
+/* ── Status pills ──────────────────────────────────── */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.status-pill.accepted { background: #e8f5e9; color: #2e7d32; }
+.status-pill.rejected { background: #fce4ec; color: #c62828; }
+.status-pill.pending  { background: #fff8e1; color: #e65100; }
+
+/* ── Empty state ───────────────────────────────────── */
+.appts-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: #718096;
+}
+.appts-empty .fa {
+  font-size: 36px;
+  color: #b0bec5;
+  margin-bottom: 10px;
+  display: block;
+}
+.appts-empty p { font-size: 13px; margin: 0; }
+
+/* ── Responsive ────────────────────────────────────── */
+@media (max-width: 768px) {
+  .appts-page { padding: 14px 12px 36px; }
+}

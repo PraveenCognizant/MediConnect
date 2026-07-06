@@ -1,0 +1,51 @@
+﻿<app-header></app-header>
+
+<div class="menu">
+  <div class="sidebar-profile">
+    <div class="sidebar-avatar">
+      <img [src]="'assets/img/admin.png'">
+    </div>
+    <div class="sidebar-name">{{name}}</div>
+    <div class="sidebar-role-badge">Administrator</div>
+  </div>
+  <nav class="sidebar-nav">
+    <a class="sidebar-link" [routerLink]="['/addDoctor']"><i class="fa fa-user-plus"></i><span>Add Doctor</span></a>
+    <a class="sidebar-link" [routerLink]="['/approvedoctors']"><i class="fa fa-check-circle"></i><span>Approve Doctors</span></a>
+    <a class="sidebar-link" [routerLink]="['/doctorlist']"><i class="fa fa-user-md"></i><span>Doctor List</span></a>
+    <a class="sidebar-link" [routerLink]="['/userlist']"><i class="fa fa-users"></i><span>Users</span></a>
+    <a class="sidebar-link" [routerLink]="['/patientlist']"><i class="fa fa-heartbeat"></i><span>Patients</span></a>
+  </nav>
+</div>
+
+<div class="dashboard-page">
+  <div class="dashboard-welcome"><b>Welcome to MediConnect &mdash; Admin Dashboard</b></div>
+  <div class="dashboard-grid">
+    <div class="dashboard-card">
+      <div class="circle"><i id="icons" class="fa fa-user-md"></i></div>
+      <div class="text">Total Users</div>
+      <div class="sub-text" *ngFor="let user of users | async">{{user}} users</div>
+    </div>
+    <div class="dashboard-card card-success">
+      <div class="circle"><i id="icons" class="fa fa-user"></i></div>
+      <div class="text">Total Doctors</div>
+      <div class="sub-text" *ngFor="let doctor of doctors | async">{{doctor}} doctors</div>
+    </div>
+    <div class="dashboard-card card-warm">
+      <div class="circle"><i id="icons" class="fa fa-calendar"></i></div>
+      <div class="text">Total Slots</div>
+      <div class="sub-text" *ngFor="let slot of slots | async">{{slot}} slots available</div>
+    </div>
+    <div class="dashboard-card card-purple">
+      <div class="circle"><i id="icons" class="fa fa-sticky-note"></i></div>
+      <div class="text">Prescriptions</div>
+      <div class="sub-text" *ngFor="let prescription of prescriptions | async">{{prescription}} medications</div>
+    </div>
+    <div class="dashboard-card card-navy">
+      <div class="circle"><i id="icons" class="fa fa-check"></i></div>
+      <div class="text">Appointments</div>
+      <div class="sub-text" *ngFor="let appointment of appointments | async">{{appointment}} appointments</div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

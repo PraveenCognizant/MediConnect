@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="MediConnect UI Automation Suite">
+    <listeners>
+        <listener class-name="com.mediconnect.listeners.TestAuditListener"/>
+    </listeners>
+    <test name="Cucumber BDD UI Scenarios">
+        <classes>
+            <class name="com.mediconnect.runner.CucumberTestRunner"/>
+        </classes>
+    </test>
+    <test name="Direct TestNG UI Tests">
+        <classes>
+            <class name="com.mediconnect.tests.LoginUiTest"/>
+            <class name="com.mediconnect.tests.RegistrationUiTest"/>
+            <class name="com.mediconnect.tests.DoctorRegistrationApprovalTest"/>
+            <class name="com.mediconnect.tests.DoctorPatientAppointmentFlowTest"/>
+            <class name="com.mediconnect.tests.DoctorWritesPrescriptionSeleniumTest"/>
+        </classes>
+    </test>
+    <test name="Backend API Tests">
+        <classes>
+            <class name="com.mediconnect.api.RegistrationApiTest"/>
+            <class name="com.mediconnect.api.LoginApiTest"/>
+            <class name="com.mediconnect.api.UsersApiTest"/>
+        </classes>
+    </test>
+</suite>

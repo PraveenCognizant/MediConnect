@@ -1,0 +1,81 @@
+﻿<app-header></app-header>
+
+<div class="page-wrapper">
+  <div class="section-card">
+    <h3 class="section-heading">Doctor List</h3>
+    <p class="subheading-text">Browse our approved specialists and book an appointment</p>
+
+    <!-- SEARCH BAR -->
+    <div class="search-bar-wrap">
+      <div class="search-input-box">
+        <i class="fa fa-search search-icon"></i>
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search by doctor name or specialization..."
+          [(ngModel)]="searchQuery"
+          (input)="onSearch()"
+        />
+        <button *ngIf="searchQuery" class="search-clear-btn" (click)="clearSearch()" title="Clear">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+      <span class="search-count">{{ filteredDoctors.length }} doctor{{ filteredDoctors.length !== 1 ? 's' : '' }} found</span>
+    </div>
+
+    <!-- NO RESULTS -->
+    <div *ngIf="filteredDoctors.length === 0" class="no-results">
+      <i class="fa fa-user-md no-results-icon"></i>
+      <p>No doctors found for <strong>"{{ searchQuery }}"</strong></p>
+      <button class="btn-clear-search" (click)="clearSearch()">Clear Search</button>
+    </div>
+
+    <div class="doctor-grid">
+      <div *ngFor="let doctor of filteredDoctors" class="doctor-card">
+
+        <!-- Avatar -->
+        <div class="doctor-avatar-wrap">
+          <img *ngIf="doctor.gender === 'Male' || doctor.gender === 'male'" [src]="'assets/img/maledoctor.png'" class="doctor-avatar">
+          <img *ngIf="doctor.gender === 'Female' || doctor.gender === 'female'" [src]="'assets/img/femaledoctor.png'" class="doctor-avatar">
+          <img *ngIf="doctor.gender !== 'Male' && doctor.gender !== 'male' && doctor.gender !== 'Female' && doctor.gender !== 'female'" [src]="'assets/img/maledoctor.png'" class="doctor-avatar">
+        </div>
+
+        <!-- Name + Specialty -->
+        <div class="doctor-name">{{doctor.doctorname}}</div>
+        <div class="doctor-specialty">{{doctor.specialization}}</div>
+
+        <!-- Status badge -->
+        <span class="badge-active" *ngIf="doctor.status === 'accept'"><i class="fa fa-check-circle"></i>&nbsp;Approved</span>
+        <span class="badge-pending" *ngIf="doctor.status === 'false'"><i class="fa fa-clock-o"></i>&nbsp;Pending</span>
+        <span class="badge-inactive" *ngIf="doctor.status === 'reject'"><i class="fa fa-times-circle"></i>&nbsp;Not Approved</span>
+
+        <!-- Divider -->
+        <div class="doctor-divider"></div>
+
+        <!-- Info rows -->
+        <div class="doctor-info-list">
+          <div class="doctor-info-row">
+            <i class="fa fa-briefcase doctor-info-icon"></i>
+            <span>{{doctor.experience}} yrs experience</span>
+          </div>
+          <div class="doctor-info-row">
+            <i class="fa fa-venus-mars doctor-info-icon"></i>
+            <span>{{doctor.gender}}</span>
+          </div>
+          <div class="doctor-info-row">
+            <i class="fa fa-phone doctor-info-icon"></i>
+            <span>{{doctor.mobile}}</span>
+          </div>
+          <div class="doctor-info-row">
+            <i class="fa fa-envelope doctor-info-icon"></i>
+            <span class="doctor-email">{{doctor.email}}</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<app-footer></app-footer>

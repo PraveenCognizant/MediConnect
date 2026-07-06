@@ -1,0 +1,78 @@
+﻿<app-header></app-header>
+
+<div class="approv-page">
+  <div class="approv-card">
+    <div class="approv-header">
+      <div class="approv-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+      </div>
+      <div>
+        <div class="approv-title">Doctor Approvals</div>
+        <div class="approv-sub">Review and manage doctor registration requests</div>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="approv-table">
+        <thead>
+          <tr>
+            <th>Doctor</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th>Experience</th>
+            <th>Specialization</th>
+            <th>Worked At</th>
+            <th>Mobile</th>
+            <th>Status / Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let doctor of doctors">
+            <td>
+              <div class="doc-cell">
+                <img *ngIf="doctor.gender === 'Male' || doctor.gender === 'male'"
+                     class="doc-avatar" src="assets/img/maledoctor.png" alt="doctor">
+                <img *ngIf="doctor.gender === 'Female' || doctor.gender === 'female'"
+                     class="doc-avatar" src="assets/img/femaledoctor.png" alt="doctor">
+                <span class="doc-name">{{doctor.doctorname}}</span>
+              </div>
+            </td>
+            <td>{{doctor.email}}</td>
+            <td>{{doctor.gender}}</td>
+            <td>{{doctor.experience}} yrs</td>
+            <td>{{doctor.specialization}}</td>
+            <td>{{doctor.previoushospital}}</td>
+            <td>{{doctor.mobile}}</td>
+            <td>
+              <div *ngIf="currRole === 'admin' && doctor.status === 'false'" class="action-btns">
+                <button (click)="acceptRequest(doctor.email)"
+                        [disabled]="actionInProgress[doctor.email]"
+                        class="btn-accept">
+                  {{ actionInProgress[doctor.email] ? '...' : 'Accept' }}
+                </button>
+                <button (click)="rejectRequest(doctor.email)"
+                        [disabled]="actionInProgress[doctor.email]"
+                        class="btn-reject">
+                  {{ actionInProgress[doctor.email] ? '...' : 'Reject' }}
+                </button>
+              </div>
+              <span *ngIf="doctor.status === 'accept'" class="status-pill accepted">&#10003; Accepted</span>
+              <span *ngIf="doctor.status === 'reject'" class="status-pill rejected">&#10007; Rejected</span>
+              <span *ngIf="doctor.status === 'false' && currRole !== 'admin'" class="status-pill pending">Pending</span>
+            </td>
+          </tr>
+          <tr *ngIf="doctors.length === 0">
+            <td colspan="8" class="empty-row">No doctor applications found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediConnect Test Automation Framework</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+    
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(135deg, #09090b 0%, #18181b 100%);
+      color: #f8fafc;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 40px 20px;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      overflow: hidden;
+    }
+    
+    header {
+      padding: 40px;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(to right, #38bdf8, #818cf8, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+    }
+    
+    header p {
+      color: #94a3b8;
+      font-size: 1.1rem;
+      margin-top: 10px;
+      margin-bottom: 0;
+    }
+    
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(0, 0, 0, 0.1);
+    }
+    
+    .tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #64748b;
+      padding: 24px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+    
+    .tab-btn:hover {
+      color: #e2e8f0;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    
+    .tab-btn.active {
+      color: #38bdf8;
+    }
+    
+    .tab-btn::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(to right, #38bdf8, #818cf8);
+      transform: scaleX(0);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .tab-btn.active::after {
+      transform: scaleX(1);
+    }
+    
+    .tab-content {
+      display: none;
+      padding: 40px;
+      animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    h2 { 
+      color: #f8fafc; 
+      font-weight: 600; 
+      font-size: 1.8rem;
+      margin-top: 0;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .intro-text {
+      color: #cbd5e1;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 30px;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    
+    .card {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 16px;
+      padding: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(to right, transparent, transparent);
+      transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.04);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    }
+    
+    .card:hover::before {
+      background: linear-gradient(to right, #38bdf8, #c084fc);
+    }
+    
+    .card h3 { 
+      color: #e2e8f0; 
+      font-weight: 600; 
+      font-size: 1.25rem;
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+    
+    .card p { 
+      color: #94a3b8; 
+      line-height: 1.6;
+      margin: 0;
+    }
+    
+    code {
+      font-family: 'Consolas', monospace;
+      background: rgba(56, 189, 248, 0.1);
+      padding: 4px 8px;
+      border-radius: 6px;
+      color: #38bdf8;
+      font-size: 0.9em;
+    }
+    
+    .command-box {
+      background: #000;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 16px;
+      border: 1px solid #333;
+      position: relative;
+    }
+    
+    .command-box::before {
+      content: 'Terminal';
+      position: absolute;
+      top: -10px;
+      left: 20px;
+      background: #18181b;
+      padding: 0 10px;
+      font-size: 0.8rem;
+      color: #64748b;
+      border-radius: 4px;
+      border: 1px solid #333;
+    }
+    
+    pre {
+      margin: 0;
+      color: #a7f3d0;
+      font-family: 'Consolas', monospace;
+      font-size: 0.95rem;
+      overflow-x: auto;
+    }
+    
+    .execution-card {
+      background: rgba(15, 23, 42, 0.4);
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    
+    .badge-ui { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+    .badge-api { background: rgba(192, 132, 252, 0.15); color: #c084fc; }
+    .badge-bdd { background: rgba(52, 211, 153, 0.15); color: #34d399; }
+    
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>MediConnect Automation Framework</h1>
+      <p>A full-stack, enterprise-grade Quality Assurance architecture</p>
+    </header>
+    
+    <div class="tabs">
+      <button class="tab-btn active" onclick="openTab(event, 'Architecture')">Architecture & Design</button>
+      <button class="tab-btn" onclick="openTab(event, 'Structure')">Code Structure</button>
+      <button class="tab-btn" onclick="openTab(event, 'Execution')">Execution Guide</button>
+    </div>
+
+    <!-- Tab 1: Architecture -->
+    <div id="Architecture" class="tab-content active">
+      <h2><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg> Framework Blueprint</h2>
+      <p class="intro-text">This automation suite is designed using industry best practices to ensure high maintainability, scalability, and robust reporting. It tests the <strong>MediConnect</strong> application comprehensively across both UI and Backend API layers.</p>
+      
+      <div class="grid">
+        <div class="card">
+          <span class="badge badge-ui">UI Architecture</span>
+          <h3>Page Object Model (POM)</h3>
+          <p>All web pages are encapsulated in their own Java classes. This separates test logic from UI elements, meaning if the UI changes, we only update the locators in one centralized place, reducing maintenance overhead drastically.</p>
+        </div>
+
+        <div class="card">
+          <span class="badge badge-bdd">Behavior</span>
+          <h3>Cucumber BDD</h3>
+          <p>Tests are written in plain English using Gherkin syntax (<code>.feature</code> files). This allows product managers and non-technical stakeholders to understand exactly what is being tested without reading Java code.</p>
+        </div>
+
+        <div class="card">
+          <span class="badge badge-api">API Integration</span>
+          <h3>RestAssured API Layer</h3>
+          <p>To ensure full-stack coverage, the framework hits the Spring Boot backend directly. It validates status codes, JSON payloads, and JWT tokens natively, catching backend regressions before they reach the UI.</p>
+        </div>
+
+        <div class="card">
+          <span class="badge badge-ui">Data Management</span>
+          <h3>JSON Data Providers</h3>
+          <p>Hardcoded test data is strictly prohibited. We use Jackson databind to parse central JSON files. The custom <code>JsonDataProviders</code> engine natively handles dynamic placeholders like <code>[TIMESTAMP]</code> at runtime.</p>
+        </div>
+        
+        <div class="card" style="grid-column: 1 / -1;">
+          <span class="badge badge-bdd">Environment</span>
+          <h3>Dynamic Configuration</h3>
+          <p>A central <code>config.properties</code> file dictates whether tests run against a local backend or a deployed frontend (e.g. Vercel). The <code>ConfigReader</code> utility manages this seamlessly, allowing zero-code environment swapping.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2: Structure -->
+    <div id="Structure" class="tab-content">
+      <h2><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg> Code Structure Explained</h2>
+      <p class="intro-text">The framework follows a strict modular directory structure to ensure Separation of Concerns. Here is a deep dive into the folders and their purpose:</p>
+
+      <div class="card execution-card" style="margin-bottom: 24px;">
+        <pre><code>src/
+└── test/
+    ├── java/com/mediconnect/
+    │   ├── api/          <span style="color:#94a3b8;">// RestAssured backend API test classes</span>
+    │   ├── base/         <span style="color:#94a3b8;">// DriverFactory, BaseTest (Core engine logic)</span>
+    │   ├── dataprovider/ <span style="color:#94a3b8;">// JsonDataProviders (TestNG data feeding engine)</span>
+    │   ├── listeners/    <span style="color:#94a3b8;">// TestAuditListener (Allure attachments & logs)</span>
+    │   ├── pages/        <span style="color:#94a3b8;">// Page Object Model classes (Locators & methods)</span>
+    │   ├── runner/       <span style="color:#94a3b8;">// CucumberTestRunner (BDD execution entry point)</span>
+    │   ├── steps/        <span style="color:#94a3b8;">// Cucumber Step Definitions (Glues features to pages)</span>
+    │   ├── tests/        <span style="color:#94a3b8;">// Direct TestNG UI execution classes</span>
+    │   └── utils/        <span style="color:#94a3b8;">// ConfigReader (Environment config management)</span>
+    └── resources/
+        ├── features/     <span style="color:#94a3b8;">// Cucumber BDD .feature files in Gherkin</span>
+        ├── testdata/     <span style="color:#94a3b8;">// Centralized JSON test data sets</span>
+        └── config.properties <span style="color:#94a3b8;">// Central environment URLs (UI & API)</span></code></pre>
+      </div>
+      
+      <div class="grid">
+        <div class="card">
+          <span class="badge badge-ui">/base & /utils</span>
+          <h3>The Core Engine</h3>
+          <p>Contains <code>DriverFactory.java</code> which dynamically spawns and destroys WebDrivers via ThreadLocal, ensuring 100% thread safety for parallel execution. The <code>ConfigReader.java</code> parses the central environment properties.</p>
+        </div>
+        
+        <div class="card">
+          <span class="badge badge-api">/pages</span>
+          <h3>The Page Object Layer</h3>
+          <p>Every web page is mapped into a Java class here. The tests interact strictly with these classes, abstracting raw Selenium commands (like <code>driver.findElement</code>) away from the actual test flows.</p>
+        </div>
+
+        <div class="card">
+          <span class="badge badge-bdd">/steps & /features</span>
+          <h3>The BDD Layer</h3>
+          <p>The <code>.feature</code> files define business behavior. The <code>/steps</code> classes contain the Java code that executes when a Cucumber step (Given, When, Then) is read, acting as the bridge between English instructions and the POM layer.</p>
+        </div>
+
+        <div class="card">
+          <span class="badge badge-api">/api</span>
+          <h3>The Backend Layer</h3>
+          <p>Completely bypasses the browser. These RestAssured classes hit the application's REST endpoints directly to validate server-side logic, database interactions, and authentication natively.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 3: Execution -->
+    <div id="Execution" class="tab-content">
+      <h2><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg> Running the Tests</h2>
+      <p class="intro-text">The framework is highly modular. You can run all tests together via Maven, or isolate execution layers by running specific TestNG classes or Cucumber runners.</p>
+
+      <div class="grid">
+        <div class="card execution-card" style="grid-column: 1 / -1;">
+          <h3>Run Everything (CI/CD Mode)</h3>
+          <p>To run both UI and API tests together and generate an Allure report:</p>
+          <div class="command-box">
+            <pre>mvn clean test</pre>
+          </div>
+          <p style="margin-top: 15px;">To view the beautiful Allure HTML report afterwards:</p>
+          <div class="command-box">
+            <pre>mvn allure:serve</pre>
+          </div>
+        </div>
+
+        <div class="card execution-card">
+          <span class="badge badge-ui">Selenium UI Only</span>
+          <h3>Run TestNG UI Tests</h3>
+          <p>Bypass the Cucumber layer and only run the direct Selenium UI tests directly through Surefire:</p>
+          <div class="command-box">
+            <pre>mvn test -Dtest="com.mediconnect.tests.*"</pre>
+          </div>
+        </div>
+
+        <div class="card execution-card">
+          <span class="badge badge-bdd">Cucumber Only</span>
+          <h3>Run BDD Feature Files</h3>
+          <p>To run only the BDD feature files via the Cucumber Runner:</p>
+          <div class="command-box">
+            <pre>mvn test -Dtest=CucumberTestRunner</pre>
+          </div>
+        </div>
+
+        <div class="card execution-card" style="grid-column: 1 / -1;">
+          <span class="badge badge-api">RestAssured Only</span>
+          <h3>Run Backend API Tests</h3>
+          <p>If you just made backend changes and want lightning-fast validation without launching a browser:</p>
+          <div class="command-box">
+            <pre>mvn test -Dtest="com.mediconnect.api.*"</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openTab(evt, tabName) {
+      // Hide all tab contents
+      var tabcontent = document.getElementsByClassName("tab-content");
+      for (var i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+        tabcontent[i].classList.remove("active");
+      }
+
+      // Remove the active class from all buttons
+      var tablinks = document.getElementsByClassName("tab-btn");
+      for (var i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
+      }
+
+      // Show the current tab and add an "active" class to the button
+      document.getElementById(tabName).style.display = "block";
+      
+      // Slight delay to allow display:block to apply before adding opacity class for animation
+      setTimeout(() => {
+        document.getElementById(tabName).classList.add("active");
+      }, 10);
+      
+      evt.currentTarget.classList.add("active");
+    }
+  </script>
+</body>
+</html>

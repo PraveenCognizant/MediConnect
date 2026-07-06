@@ -1,0 +1,91 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap');
+
+:host { display: block; }
+
+.page-wrapper {
+  min-height: calc(100vh - 60px);
+  padding: 20px 20px 40px;
+  background: #f0f4f8;
+}
+
+.section-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  padding: 18px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-heading {
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1565c0;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e3eaf5;
+}
+
+table { width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif; font-size: 12px; }
+thead th { background: #1565c0; color: #fff; padding: 9px 12px; text-align: left; font-weight: 600; font-size: 11.5px; white-space: nowrap; }
+tbody tr:nth-child(even) { background: #f5f8ff; }
+tbody tr:hover { background: #e8f0fe; transition: background 0.2s; }
+tbody td { padding: 8px 12px; border-bottom: 1px solid #e8edf5; color: #444; vertical-align: middle; font-size: 12px; }
+
+.btn-primary-custom {
+  background: linear-gradient(135deg, #1565c0, #1e88e5);
+  color: #fff; border: none;
+  padding: 10px 26px; border-radius: 8px;
+  font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px;
+  cursor: pointer; transition: all 0.25s ease;
+  box-shadow: 0 3px 12px rgba(21,101,192,0.22);
+}
+.btn-primary-custom:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(21,101,192,0.3); }
+
+.badge-active { background: #e8f5e9; color: #2e7d32; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.badge-pending { background: #fff8e1; color: #f57f17; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.badge-inactive { background: #fce4ec; color: #c62828; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+
+.table-responsive-wrapper { overflow-x: auto; border-radius: 10px; }
+
+.alert-info-custom {
+  background: #e3f2fd; border-left: 4px solid #1565c0;
+  border-radius: 10px; padding: 14px 20px;
+  color: #1565c0; font-family: 'Inter', sans-serif; font-size: 14px; margin-bottom: 20px;
+}
+
+.id-badge { background: #e8f5e9; color: #2e7d32; padding: 2px 8px; border-radius: 8px; font-size: 11px; font-weight: 600; }
+.slot-pill { background: #e3f2fd; color: #1565c0; padding: 2px 8px; border-radius: 8px; font-size: 11px; font-weight: 600; }
+
+/* ── Appointment Info Guide (patient side) ─────────────────── */
+.appt-info-guide {
+  background: #f8fafc;
+  border: 1px solid #e0f2f1;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+}
+.info-guide-title {
+  font-size: 12.5px; font-weight: 700; color: #00695c;
+  margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+}
+.info-guide-items { display: flex; gap: 14px; flex-wrap: wrap; }
+.info-guide-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  flex: 1; min-width: 180px;
+  padding: 10px 14px; border-radius: 10px;
+}
+.info-guide-item .fa { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+.info-guide-item strong { display: block; font-size: 12.5px; margin-bottom: 3px; }
+.info-guide-item span { font-size: 11.5px; color: #718096; line-height: 1.5; }
+.pending-info  { background: #fff8e1; } .pending-info  .fa { color: #e65100; } .pending-info  strong { color: #e65100; }
+.accepted-info { background: #e8f5e9; } .accepted-info .fa { color: #2e7d32; } .accepted-info strong { color: #2e7d32; }
+.rejected-info { background: #fce4ec; } .rejected-info .fa { color: #c62828; } .rejected-info strong { color: #c62828; }
+
+@media (max-width: 768px) {
+  .page-wrapper { padding: 20px 12px 48px; }
+  .section-card { padding: 20px 16px; }
+  thead th, tbody td { padding: 9px 10px; font-size: 13px; }
+  .info-guide-items { flex-direction: column; }
+}

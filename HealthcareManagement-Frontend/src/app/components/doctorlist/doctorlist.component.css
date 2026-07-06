@@ -1,0 +1,222 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap');
+
+:host { display: block; }
+
+.subheading-text {
+  color: #666;
+  font-size: 12px;
+  margin-top: -10px;
+  margin-bottom: 16px;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── Search Bar ── */
+.search-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.search-input-box {
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+  max-width: 480px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #1565c0;
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 9px 36px 9px 34px;
+  border: 1.5px solid #c5d5f5;
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  color: #333;
+  background: #f7f9ff;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.search-input:focus {
+  border-color: #1565c0;
+  box-shadow: 0 0 0 3px rgba(21,101,192,0.1);
+  background: #fff;
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #999;
+  font-size: 13px;
+  padding: 0;
+  line-height: 1;
+}
+.search-clear-btn:hover { color: #c62828; }
+
+.search-count {
+  font-size: 12px;
+  color: #888;
+  font-family: 'Inter', sans-serif;
+  white-space: nowrap;
+}
+
+/* ── No Results ── */
+.no-results {
+  text-align: center;
+  padding: 40px 20px;
+  color: #999;
+  font-family: 'Inter', sans-serif;
+}
+.no-results-icon {
+  font-size: 40px;
+  color: #c5d5f5;
+  margin-bottom: 10px;
+  display: block;
+}
+.no-results p { font-size: 14px; margin: 8px 0 16px; color: #666; }
+.btn-clear-search {
+  background: #1565c0;
+  color: #fff;
+  border: none;
+  padding: 7px 18px;
+  border-radius: 7px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+}
+.btn-clear-search:hover { background: #0d47a1; }
+
+/* Doctor Card Grid */
+.doctor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 14px;
+}
+
+.doctor-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  padding: 16px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #eef2f9;
+}
+.doctor-card:hover {
+  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+}
+
+/* Avatar */
+.doctor-avatar-wrap {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e3f0ff, #bbdefb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(21,101,192,0.12);
+}
+.doctor-avatar {
+  width: 46px;
+  height: 52px;
+  object-fit: contain;
+}
+
+/* Name & specialty */
+.doctor-name {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 12.5px;
+  color: #1a237e;
+  margin-bottom: 3px;
+}
+.doctor-specialty {
+  font-size: 11px;
+  color: #1565c0;
+  font-weight: 600;
+  background: #e8f0fe;
+  padding: 2px 9px;
+  border-radius: 20px;
+  margin-bottom: 7px;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Badges */
+.badge-active, .badge-pending, .badge-inactive {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 9px;
+  border-radius: 20px;
+  font-size: 10.5px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.badge-active  { background: #e8f5e9; color: #2e7d32; }
+.badge-pending { background: #fff8e1; color: #f57f17; }
+.badge-inactive{ background: #fce4ec; color: #c62828; }
+
+/* Divider */
+.doctor-divider {
+  width: 100%;
+  height: 1px;
+  background: #eef2f9;
+  margin: 8px 0;
+}
+
+/* Info rows */
+.doctor-info-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-align: left;
+}
+.doctor-info-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11.5px;
+  color: #555;
+}
+.doctor-info-icon {
+  color: #1565c0;
+  width: 14px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.doctor-email {
+  word-break: break-all;
+  font-size: 12px;
+  color: #666;
+}
+
+@media (max-width: 600px) {
+  .doctor-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+}
+@media (max-width: 400px) {
+  .doctor-grid { grid-template-columns: 1fr; }
+}

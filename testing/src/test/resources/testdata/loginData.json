@@ -1,0 +1,20 @@
+{
+  "validCredentials": [
+    ["patient", "john@gmail.com", "John@123", "/userdashboard"],
+    ["doctor", "praveendu@gmail.com", "Praveen@123", "/doctordashboard"],
+    ["admin", "admin@mediconnect.com", "Admin@123", "/admindashboard"]
+  ],
+  "invalidCredentials": [
+    ["patient", "john@gmail.com", "Wrong@123", "Bad credentials"],
+    ["patient", "unknown.patient@example.com", "John@123", "Bad credentials"],
+    ["doctor", "praveendu@gmail.com", "Wrong@123", "Bad credentials"],
+    ["doctor", "unknown.doctor@example.com", "Praveen@123", "Bad credentials"],
+    ["admin", "admin@mediconnect.com", "Wrong@123", "Bad admin credentials"],
+    ["admin", "unknown.admin@example.com", "Admin@123", "Bad admin credentials"]
+  ],
+  "invalidEmailFormats": [
+    ["patient", "john", "John@123"],
+    ["doctor", "praveendu", "Praveen@123"],
+    ["admin", "admin", "Admin@123"]
+  ]
+}

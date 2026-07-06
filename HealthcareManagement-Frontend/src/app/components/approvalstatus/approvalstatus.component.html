@@ -1,0 +1,124 @@
+﻿<app-header></app-header>
+
+<div class="page-wrapper">
+  <div class="section-card">
+    <h3 class="section-heading">Approval Status</h3>
+
+    <!-- ── DOCTOR VIEW ────────────────────────── -->
+    <ng-container *ngIf="currRole === 'doctor'">
+      <div class="table-responsive-wrapper">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Identity</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Gender</th>
+              <th>Experience</th>
+              <th>Specialization</th>
+              <th>Prev. Hospital</th>
+              <th>Mobile</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let doctor of approval | async">
+              <td>
+                <img *ngIf="doctor.gender === 'Male' || doctor.gender === 'male'" [src]="'assets/img/maledoctor.png'" width="32" height="32" style="border-radius:50%;object-fit:cover;">
+                <img *ngIf="doctor.gender === 'Female' || doctor.gender === 'female'" [src]="'assets/img/femaledoctor.png'" width="32" height="32" style="border-radius:50%;object-fit:cover;">
+              </td>
+              <td>{{doctor.doctorname}}</td>
+              <td>{{doctor.email}}</td>
+              <td>{{doctor.gender}}</td>
+              <td>{{doctor.experience}} yrs</td>
+              <td>{{doctor.specialization}}</td>
+              <td>{{doctor.previoushospital}}</td>
+              <td>{{doctor.mobile}}</td>
+              <td>
+                <span class="badge-active" *ngIf="doctor.status === 'accept'"><i class="fa fa-check-circle"></i>&nbsp;Approved</span>
+                <span class="badge-pending" *ngIf="doctor.status === 'false'"><i class="fa fa-clock-o"></i>&nbsp;Pending</span>
+                <span class="badge-inactive" *ngIf="doctor.status === 'reject'"><i class="fa fa-times-circle"></i>&nbsp;Rejected</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+
+    <!-- ── USER VIEW ─────────────────────────── -->
+    <ng-container *ngIf="currRole === 'user'">
+
+      <!-- Status Info Guide for Patients -->
+      <div class="appt-info-guide">
+        <div class="info-guide-title"><i class="fa fa-info-circle"></i>&nbsp; Understanding Your Appointment Status</div>
+        <div class="info-guide-items">
+          <div class="info-guide-item pending-info">
+            <i class="fa fa-clock-o"></i>
+            <div>
+              <strong>Awaiting Approval</strong>
+              <span>Your booking request has been sent to the doctor. The time slot is temporarily held for you. Please wait for the doctor to respond.</span>
+            </div>
+          </div>
+          <div class="info-guide-item accepted-info">
+            <i class="fa fa-check-circle"></i>
+            <div>
+              <strong>Accepted / Booked</strong>
+              <span>The doctor has approved your appointment. Your slot is now confirmed and fully booked for you.</span>
+            </div>
+          </div>
+          <div class="info-guide-item rejected-info">
+            <i class="fa fa-times-circle"></i>
+            <div>
+              <strong>Rejected</strong>
+              <span>The doctor has declined your request. The slot has been released and is now available for other patients. You may try booking a different slot.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive-wrapper">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Identity</th>
+              <th>Patient ID</th>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Slot</th>
+              <th>Date</th>
+              <th>Problem</th>
+              <th>Approval</th>
+              <th>Treatment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let patient of appointment | async">
+              <td>
+                <img *ngIf="patient.gender === 'Male' || patient.gender === 'male'" [src]="'assets/img/maleuser.png'" width="32" height="32" style="border-radius:50%;object-fit:cover;">
+                <img *ngIf="patient.gender === 'Female' || patient.gender === 'female'" [src]="'assets/img/femaleuser.png'" width="32" height="32" style="border-radius:50%;object-fit:cover;">
+              </td>
+              <td><span class="id-badge">{{patient.patientid}}</span></td>
+              <td>{{patient.patientname}}</td>
+              <td>{{patient.age}}</td>
+              <td><span class="slot-pill">{{patient.slot}}</span></td>
+              <td>{{patient.date}}</td>
+              <td>{{patient.problem}}</td>
+              <td>
+                <span class="badge-active" *ngIf="patient.appointmentstatus === 'accept'"><i class="fa fa-check-circle"></i>&nbsp;Accepted</span>
+                <span class="badge-pending" *ngIf="patient.appointmentstatus === 'pending' || patient.appointmentstatus === 'false'"><i class="fa fa-clock-o"></i>&nbsp;Awaiting Approval</span>
+                <span class="badge-inactive" *ngIf="patient.appointmentstatus === 'reject'"><i class="fa fa-times-circle"></i>&nbsp;Rejected</span>
+              </td>
+              <td>
+                <span class="badge-active" *ngIf="patient.treatmentstatus === 'accept'"><i class="fa fa-check-circle"></i>&nbsp;Treated</span>
+                <span class="badge-pending" *ngIf="patient.treatmentstatus === 'false'"><i class="fa fa-clock-o"></i>&nbsp;Not Yet Treated</span>
+                <span class="badge-inactive" *ngIf="patient.treatmentstatus === 'reject'"><i class="fa fa-times-circle"></i>&nbsp;Not Treated</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+
+  </div>
+</div>
+
+<app-footer></app-footer>

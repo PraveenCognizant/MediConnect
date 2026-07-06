@@ -1,0 +1,152 @@
+<app-header></app-header>
+
+<div class="appts-page">
+
+  <!-- Page Header -->
+  <div class="appts-header">
+    <div class="appts-header-left">
+      <div class="appts-icon"><i class="fa fa-calendar-check-o"></i></div>
+      <div>
+        <h2 class="appts-title">Patient Appointments</h2>
+        <p class="appts-subtitle">Review and manage all appointment requests</p>
+      </div>
+    </div>
+    <div class="appts-count" *ngIf="appointments.length > 0">
+      <span class="count-badge">{{appointments.length}} Request(s)</span>
+    </div>
+  </div>
+
+  <!-- Status Legend -->
+  <div class="status-legend">
+    <div class="legend-title"><i class="fa fa-info-circle"></i> Appointment Status Guide</div>
+    <div class="legend-items">
+      <div class="legend-item">
+        <span class="legend-dot pending-dot"></span>
+        <div>
+          <strong>Awaiting Approval</strong>
+          <p>Patient has requested this slot. The slot is temporarily held. Accept or Reject to proceed.</p>
+        </div>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot accepted-dot"></span>
+        <div>
+          <strong>Accepted / Booked</strong>
+          <p>You approved this appointment. The slot is confirmed and marked as Booked.</p>
+        </div>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot rejected-dot"></span>
+        <div>
+          <strong>Rejected</strong>
+          <p>You declined this request. The slot is released and becomes Available for other patients.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Appointments Table -->
+  <div class="appts-table-wrap">
+    <table class="appts-table">
+      <thead>
+        <tr>
+          <th>Patient</th>
+          <th>Email</th>
+          <th>Age / Gender</th>
+          <th>Problem</th>
+          <th>Date</th>
+          <th>Requested Slot</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let patient of appointments">
+
+          <!-- Patient Name + Avatar -->
+          <td>
+            <div class="pt-cell">
+              <div class="pt-avatar">
+                <img *ngIf="patient.gender === 'Male' || patient.gender === 'male'" [src]="'assets/img/maleuser.png'">
+                <img *ngIf="patient.gender === 'Female' || patient.gender === 'female'" [src]="'assets/img/femaleuser.png'">
+              </div>
+              <div>
+                <div class="pt-name">{{patient.patientname}}</div>
+                <div class="pt-id">#{{patient.patientid}}</div>
+              </div>
+            </div>
+          </td>
+
+          <!-- Email -->
+          <td class="pt-email">{{patient.email}}</td>
+
+          <!-- Age / Gender -->
+          <td class="pt-minor">{{patient.age}} / {{patient.gender}}</td>
+
+          <!-- Problem -->
+          <td class="pt-problem">{{patient.problem}}</td>
+
+          <!-- Date -->
+          <td class="pt-minor">{{patient.date}}</td>
+
+          <!-- Requested Slot -->
+          <td>
+            <span class="slot-badge am" *ngIf="patient.slot === 'AM slot'">
+              <i class="fa fa-sun-o"></i> AM Slot
+            </span>
+            <span class="slot-badge noon" *ngIf="patient.slot === 'Noon slot'">
+              <i class="fa fa-cloud"></i> Noon Slot
+            </span>
+            <span class="slot-badge pm" *ngIf="patient.slot === 'PM slot'">
+              <i class="fa fa-moon-o"></i> PM Slot
+            </span>
+          </td>
+
+          <!-- Status -->
+          <td>
+            <span class="status-pill accepted" *ngIf="patient.appointmentstatus === 'accept'">
+              <i class="fa fa-check-circle"></i> Accepted
+            </span>
+            <span class="status-pill rejected" *ngIf="patient.appointmentstatus === 'reject'">
+              <i class="fa fa-times-circle"></i> Rejected
+            </span>
+            <span class="status-pill pending" *ngIf="patient.appointmentstatus === 'pending' || patient.appointmentstatus === 'false'">
+              <i class="fa fa-clock-o"></i> Awaiting Approval
+            </span>
+          </td>
+
+          <!-- Action Buttons -->
+          <td>
+            <!-- Show buttons only when pending -->
+            <div class="action-btns" *ngIf="patient.appointmentstatus === 'pending' || patient.appointmentstatus === 'false'">
+              <button class="btn-accept" (click)="acceptAppointment(patient.id)" [disabled]="actionLoading[patient.id]">
+                <i class="fa" [ngClass]="actionLoading[patient.id] ? 'fa-spinner fa-spin' : 'fa-check'"></i>
+                Accept
+              </button>
+              <button class="btn-reject" (click)="rejectAppointment(patient.id)" [disabled]="actionLoading[patient.id]">
+                <i class="fa" [ngClass]="actionLoading[patient.id] ? 'fa-spinner fa-spin' : 'fa-times'"></i>
+                Reject
+              </button>
+            </div>
+            <!-- Already actioned -->
+            <span class="action-done accepted" *ngIf="patient.appointmentstatus === 'accept'">
+              <i class="fa fa-check-circle"></i> Done
+            </span>
+            <span class="action-done rejected" *ngIf="patient.appointmentstatus === 'reject'">
+              <i class="fa fa-times-circle"></i> Done
+            </span>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Empty state -->
+    <div class="appts-empty" *ngIf="appointments.length === 0">
+      <i class="fa fa-calendar-times-o"></i>
+      <p>No appointment requests found.</p>
+    </div>
+  </div>
+
+</div>
+
+<app-footer></app-footer>

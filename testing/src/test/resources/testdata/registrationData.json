@@ -1,0 +1,28 @@
+{
+  "doctorRegistrationApprovalData": [
+    [
+      "Dr Auto [TIMESTAMP]",
+      "doctor.auto.[TIMESTAMP]@example.com",
+      "Male",
+      "98765[TIMESTAMP_5]",
+      "Scientist",
+      "5",
+      "Automation Hospital",
+      "Bangalore",
+      "Doctor@123",
+      "admin@mediconnect.com",
+      "Admin@123"
+    ]
+  ],
+  "patientRegistrationData": [
+    [
+      "Priya Patient",
+      "priya.patient@example.com",
+      "Female",
+      "28",
+      "9876543210",
+      "Mumbai",
+      "Patient@123"
+    ]
+  ]
+}

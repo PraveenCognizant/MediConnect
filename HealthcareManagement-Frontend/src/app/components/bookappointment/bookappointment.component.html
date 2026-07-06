@@ -1,0 +1,149 @@
+﻿<app-header></app-header>
+
+<!-- Success/Error Message -->
+<div class="appt-message" *ngIf="message">
+  <i class="fa fa-check-circle"></i> {{message}}
+</div>
+
+<div class="appt-page">
+  <div class="appt-card">
+
+    <!-- Header -->
+    <div class="appt-card-header">
+      <div class="appt-icon-wrap"><i class="fa fa-calendar-plus-o"></i></div>
+      <div>
+        <h2 class="appt-title">Book Appointment</h2>
+        <p class="appt-subtitle">Fill in the details below to schedule your visit</p>
+      </div>
+    </div>
+
+    <form #bookappointmentform="ngForm" (ngSubmit)="bookAppointment()">
+
+      <!-- Section: Patient Details -->
+      <div class="appt-section-label"><i class="fa fa-user-o"></i> Patient Details</div>
+      <div class="appt-grid">
+        <div class="appt-field">
+          <label>Patient Name <span class="req">*</span></label>
+          <input type="text" class="form-control" placeholder="Full name with initial"
+            name="patientname" [(ngModel)]="appointment.patientname" required
+            #patientname="ngModel" [class.is-invalid]="patientname.invalid && patientname.touched"
+            readonly style="background-color:#f5f5f5;cursor:not-allowed">
+          <small class="field-err" *ngIf="patientname.invalid && patientname.touched">Required</small>
+        </div>
+        <div class="appt-field">
+          <label>Email Address <span class="req">*</span></label>
+          <input type="email" class="form-control" placeholder="Valid email address"
+            name="patientemail" [(ngModel)]="appointment.email" required
+            pattern="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"
+            #patientemail="ngModel" [class.is-invalid]="patientemail.invalid && patientemail.touched"
+            readonly style="background-color:#f5f5f5;cursor:not-allowed">
+          <small class="field-err" *ngIf="patientemail.errors?.required && patientemail.touched">Required</small>
+          <small class="field-err" *ngIf="patientemail.errors?.pattern && patientemail.touched">Invalid email</small>
+        </div>
+        <div class="appt-field">
+          <label>Age <span class="req">*</span></label>
+          <input type="text" class="form-control" placeholder="Patient age"
+            name="age" [(ngModel)]="appointment.age" required
+            #age="ngModel" [class.is-invalid]="age.invalid && age.touched"
+            readonly style="background-color:#f5f5f5;cursor:not-allowed">
+          <small class="field-err" *ngIf="age.invalid && age.touched">Required</small>
+        </div>
+        <div class="appt-field">
+          <label>Gender <span class="req">*</span></label>
+          <select class="form-control" name="gender" [(ngModel)]="appointment.gender" disabled style="background-color:#f5f5f5;cursor:not-allowed">
+            <option value="" disabled>Select gender</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Others</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Section: Doctor Selection -->
+      <div class="appt-section-label"><i class="fa fa-user-md"></i> Doctor Selection</div>
+      <div class="appt-grid">
+        <div class="appt-field">
+          <label>Specialization <span class="req">*</span></label>
+          <select class="form-control" name="specialization"
+            [(ngModel)]="appointment.specialization" (change)="onSpecializationChange()">
+            <option value="" disabled>Select speciality</option>
+            <option *ngFor="let spec of uniqueSpecializations" [value]="spec">{{spec}}</option>
+          </select>
+        </div>
+        <div class="appt-field">
+          <label>Choose Doctor <span class="req">*</span></label>
+          <select class="form-control" name="doctor"
+            [(ngModel)]="appointment.doctorname"
+            [disabled]="!appointment.specialization"
+            (change)="onDoctorChange()">
+            <option value="" disabled>Select doctor</option>
+            <option *ngFor="let doctor of filteredDoctors" [value]="doctor.doctorname">
+              {{doctor.doctorname}}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <!-- No slots notice -->
+      <div class="appt-no-slots" *ngIf="noSlotsForDoctor">
+        <i class="fa fa-exclamation-triangle"></i>
+        This doctor has no available slots right now. Please choose a different doctor.
+      </div>
+
+      <!-- Section: Appointment Details -->
+      <div class="appt-section-label" *ngIf="!noSlotsForDoctor"><i class="fa fa-calendar"></i> Appointment Details</div>
+      <div class="appt-grid" *ngIf="!noSlotsForDoctor">
+        <div class="appt-field">
+          <label>Appointment Date <span class="req">*</span></label>
+          <select class="form-control" name="date"
+            [(ngModel)]="appointment.date"
+            [disabled]="!appointment.doctorname"
+            (change)="onDateChange()" required>
+            <option value="" disabled>Select available date</option>
+            <option *ngFor="let d of availableDates" [value]="d">{{d}}</option>
+          </select>
+          <small class="field-hint" *ngIf="appointment.doctorname && availableDates.length > 0">
+            {{availableDates.length}} date(s) available
+          </small>
+        </div>
+        <div class="appt-field">
+          <label>Time Slot <span class="req">*</span></label>
+          <select class="form-control" name="slot"
+            [(ngModel)]="appointment.slot"
+            [disabled]="!appointment.date">
+            <option value="" disabled>Select available slot</option>
+            <option *ngFor="let s of availableSlots" [value]="s">{{s}}</option>
+          </select>
+          <small class="field-hint" *ngIf="appointment.date && availableSlots.length > 0">
+            {{availableSlots.length}} slot(s) open
+          </small>
+        </div>
+        <div class="appt-field appt-field-full">
+          <label>Problem / Reason for Visit <span class="req">*</span></label>
+          <input type="text" class="form-control" placeholder="Briefly describe the problem"
+            name="problem" [(ngModel)]="appointment.problem" required
+            #problem="ngModel" [class.is-invalid]="problem.invalid && problem.touched">
+          <small class="field-err" *ngIf="problem.invalid && problem.touched">Required</small>
+        </div>
+      </div>
+
+      <div class="appt-info-note" *ngIf="!noSlotsForDoctor">
+        <i class="fa fa-info-circle"></i>
+        Only available dates and slots for your selected doctor are shown above.
+      </div>
+
+      <div class="appt-error-note" *ngIf="message">
+        <i class="fa fa-exclamation-circle"></i> {{message}}
+      </div>
+
+      <div class="appt-actions">
+        <button [disabled]="bookappointmentform.form.invalid || !appointment.slot" type="submit" class="appt-submit-btn">
+          <i class="fa fa-calendar-check-o"></i> Confirm Booking
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<app-footer></app-footer>
+

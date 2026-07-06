@@ -1,0 +1,301 @@
+﻿<!-- ── Auth Header ─────────────────────────────────────────── -->
+<header class="auth-header">
+  <div class="auth-header-inner">
+    <a routerLink="/" class="auth-logo">
+      <i class="fa fa-heartbeat"></i>
+      <span>MediConnect</span>
+    </a>
+    <nav class="auth-nav">
+      <a routerLink="/" class="auth-nav-link"><i class="fa fa-home"></i>&nbsp; Home</a>
+      <a routerLink="/login" class="auth-nav-btn"><i class="fa fa-sign-in"></i>&nbsp; Login</a>
+    </nav>
+  </div>
+</header>
+
+<div class="reg-page">
+
+  <!-- Left Panel -->
+  <div class="reg-left">
+    <div class="reg-left-content">
+      <div class="reg-brand"><i class="fa fa-heartbeat"></i> MediConnect</div>
+      <h2>Create Your Account</h2>
+      <p>Join MediConnect and access doctors, appointments, and health records â€” all in one platform.</p>
+      <div class="reg-features">
+        <div class="reg-feature"><i class="fa fa-calendar-check-o"></i> Book appointments easily</div>
+        <div class="reg-feature"><i class="fa fa-file-text-o"></i> View prescriptions</div>
+        <div class="reg-feature"><i class="fa fa-user-md"></i> Connect with doctors</div>
+      </div>
+      <div class="reg-login-hint">
+        Already have an account?
+        <a [routerLink]="['/login']">Login here</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Panel -->
+  <div class="reg-right">
+    <div class="reg-card">
+
+      <!-- Tabs -->
+      <div class="reg-tabs">
+        <button class="reg-tab" [class.active]="activeTab==='user'" (click)="switchTab('user')">
+          <i class="fa fa-user"></i> User
+        </button>
+        <button class="reg-tab" [class.active]="activeTab==='doctor'" (click)="switchTab('doctor')">
+          <i class="fa fa-user-md"></i> Doctor
+        </button>
+      </div>
+
+      <small class="text-danger reg-msg"><b>{{msg}}</b></small>
+
+      <!-- ===== USER FORM ===== -->
+      <div *ngIf="activeTab==='user'">
+        <h3 class="reg-form-title">User Registration</h3>
+        <form #userform="ngForm" (ngSubmit)="registerUser()">
+          <div class="reg-grid">
+            <div class="form-group">
+              <label>Full Name <b class="text-danger">*</b></label>
+              <input type="text" class="form-control" placeholder="Enter username" name="username"
+                [(ngModel)]="user.username" required #username="ngModel"
+                [class.is-invalid]="username.invalid && username.touched">
+              <small class="text-danger" *ngIf="username.invalid && username.touched">Required</small>
+            </div>
+            <div class="form-group">
+              <label>Email <b class="text-danger">*</b></label>
+              <input type="email" class="form-control" placeholder="Enter email" name="useremail"
+                [(ngModel)]="user.email" required pattern="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"
+                #useremail="ngModel" [class.is-invalid]="useremail.invalid && useremail.touched">
+              <small class="text-danger" *ngIf="useremail.errors?.required && useremail.touched">Required</small>
+              <small class="text-danger" *ngIf="useremail.errors?.pattern && useremail.touched">Invalid email</small>
+            </div>
+            <div class="form-group">
+              <label>Gender <b class="text-danger">*</b></label>
+              <select class="form-control" name="usergender"
+                [(ngModel)]="user.gender" required #usergender="ngModel"
+                [class.is-invalid]="usergender.invalid && usergender.touched">
+                <option value="" disabled selected>Select gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+              <small class="text-danger" *ngIf="usergender.invalid && usergender.touched">Required</small>
+            </div>
+            <div class="form-group">
+              <label>Age <b class="text-danger">*</b></label>
+              <input type="number" class="form-control" placeholder="Enter age" name="userage"
+                [(ngModel)]="user.age" required #userage="ngModel"
+                [class.is-invalid]="userage.invalid && userage.touched">
+              <small class="text-danger" *ngIf="userage.invalid && userage.touched">Required</small>
+            </div>
+            <div class="form-group">
+              <label>Mobile <b class="text-danger">*</b></label>
+              <input type="tel" maxlength="10" minlength="10" class="form-control" placeholder="10-digit mobile"
+                name="usermobile" [(ngModel)]="user.mobile" required #usermobile="ngModel"
+                [class.is-invalid]="usermobile.invalid && usermobile.touched">
+              <small class="text-danger" *ngIf="usermobile.invalid && usermobile.touched">Required</small>
+            </div>
+            <div class="form-group">
+              <label>Address <b class="text-danger">*</b></label>
+              <input type="text" class="form-control" placeholder="Enter address" name="useraddress"
+                [(ngModel)]="user.address" required #useraddress="ngModel"
+                [class.is-invalid]="useraddress.invalid && useraddress.touched">
+              <small class="text-danger" *ngIf="useraddress.invalid && useraddress.touched">Required</small>
+            </div>
+            <div class="form-group pwd-full-width">
+              <label>Password <b class="text-danger">*</b></label>
+              <div class="pwd-input-wrap">
+                <input [type]="showUserPassword ? 'text' : 'password'" class="form-control" placeholder="Create a strong password" name="pwd"
+                  [(ngModel)]="user.password" required #userpassword="ngModel"
+                  (focus)="userPasswordTouched = true"
+                  [class.is-invalid]="userPasswordTouched && !isPasswordValid(user.password)">
+                <button type="button" class="pwd-toggle" (click)="showUserPassword = !showUserPassword" tabindex="-1">
+                  <i class="fa" [ngClass]="showUserPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                </button>
+              </div>
+              <div class="pwd-strength-bar" *ngIf="user.password">
+                <div class="strength-segments">
+                  <span class="seg" [class.filled]="passwordStrength(user.password) >= 1" [ngClass]="passwordStrength(user.password) >= 1 ? strengthClass(user.password) : ''"></span>
+                  <span class="seg" [class.filled]="passwordStrength(user.password) >= 2" [ngClass]="passwordStrength(user.password) >= 2 ? strengthClass(user.password) : ''"></span>
+                  <span class="seg" [class.filled]="passwordStrength(user.password) >= 3" [ngClass]="passwordStrength(user.password) >= 3 ? strengthClass(user.password) : ''"></span>
+                  <span class="seg" [class.filled]="passwordStrength(user.password) >= 4" [ngClass]="passwordStrength(user.password) >= 4 ? strengthClass(user.password) : ''"></span>
+                  <span class="seg" [class.filled]="passwordStrength(user.password) >= 5" [ngClass]="passwordStrength(user.password) >= 5 ? strengthClass(user.password) : ''"></span>
+                </div>
+                <span class="strength-label" [ngClass]="strengthClass(user.password)">{{strengthLabel(user.password)}}</span>
+              </div>
+              <div class="pwd-rules" *ngIf="userPasswordTouched">
+                <div class="pwd-rule" [class.rule-ok]="hasMinLength(user.password)" [class.rule-fail]="user.password && !hasMinLength(user.password)">
+                  <i class="fa" [ngClass]="hasMinLength(user.password) ? 'fa-check-circle' : 'fa-times-circle'"></i> At least 8 characters
+                </div>
+                <div class="pwd-rule" [class.rule-ok]="hasUppercase(user.password)" [class.rule-fail]="user.password && !hasUppercase(user.password)">
+                  <i class="fa" [ngClass]="hasUppercase(user.password) ? 'fa-check-circle' : 'fa-times-circle'"></i> One uppercase letter (A-Z)
+                </div>
+                <div class="pwd-rule" [class.rule-ok]="hasLowercase(user.password)" [class.rule-fail]="user.password && !hasLowercase(user.password)">
+                  <i class="fa" [ngClass]="hasLowercase(user.password) ? 'fa-check-circle' : 'fa-times-circle'"></i> One lowercase letter (a-z)
+                </div>
+                <div class="pwd-rule" [class.rule-ok]="hasNumber(user.password)" [class.rule-fail]="user.password && !hasNumber(user.password)">
+                  <i class="fa" [ngClass]="hasNumber(user.password) ? 'fa-check-circle' : 'fa-times-circle'"></i> One number (0-9)
+                </div>
+                <div class="pwd-rule" [class.rule-ok]="hasSpecial(user.password)" [class.rule-fail]="user.password && !hasSpecial(user.password)">
+                  <i class="fa" [ngClass]="hasSpecial(user.password) ? 'fa-check-circle' : 'fa-times-circle'"></i> One special character (!&#64;#$%...)
+                </div>
+              </div>
+            </div>
+            <div class="form-group pwd-full-width">
+              <label>Confirm Password <b class="text-danger">*</b></label>
+              <div class="pwd-input-wrap">
+                <input [type]="showUserConfirm ? 'text' : 'password'" class="form-control" placeholder="Re-enter password" name="ConfirmPassword"
+                  [(ngModel)]="confirmPassword" required
+                  (blur)="confirmPasswordBlurred = true"
+                  [class.is-invalid]="confirmPasswordBlurred && confirmPassword !== user.password"
+                  [class.is-valid]="confirmPasswordBlurred && confirmPassword === user.password && confirmPassword !== ''">
+                <button type="button" class="pwd-toggle" (click)="showUserConfirm = !showUserConfirm" tabindex="-1">
+                  <i class="fa" [ngClass]="showUserConfirm ? 'fa-eye-slash' : 'fa-eye'"></i>
+                </button>
+              </div>
+              <div class="pwd-match-msg" *ngIf="confirmPasswordBlurred && confirmPassword">
+                <span class="match-ok" *ngIf="confirmPassword === user.password"><i class="fa fa-check-circle"></i> Passwords match</span>
+                <span class="match-fail" *ngIf="confirmPassword !== user.password"><i class="fa fa-times-circle"></i> Passwords do not match</span>
+              </div>
+            </div>
+          </div>
+          <div class="reg-terms">
+            <input type="checkbox" name="remember" required> I agree to all Terms &amp; Conditions
+          </div>
+          <button [disabled]="userform.form.invalid || user.password !== confirmPassword || !isPasswordValid(user.password)" type="submit" class="reg-submit-btn">Create Account</button>
+        </form>
+      </div>
+
+      <!-- ===== DOCTOR FORM ===== -->
+      <div *ngIf="activeTab==='doctor'">
+        <h3 class="reg-form-title">Doctor Registration</h3>
+        <form #doctorform="ngForm" (ngSubmit)="registerDoctor()">
+          <div class="reg-grid">
+            <div class="form-group">
+              <label>Doctor Name <b class="text-danger">*</b></label>
+              <input type="text" class="form-control" placeholder="Enter full name" name="doctorname"
+                [(ngModel)]="doctor.doctorname" required #doctorname="ngModel"
+                [class.is-invalid]="doctorname.invalid && doctorname.touched">
+              <small class="text-danger" *ngIf="doctorname.invalid && doctorname.touched">Required</small>
+            </div>
+            <div class="form-group">
+              <label>Email <b class="text-danger">*</b></label>
+              <input type="email" class="form-control" placeholder="Enter email" name="doctoremail"
+                [(ngModel)]="doctor.email" required pattern="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"
+                #doctoremail="ngModel" [class.is-invalid]="doctoremail.invalid && doctoremail.touched">
+              <small class="text-danger" *ngIf="doctoremail.errors?.required && doctoremail.touched">Required</small>
+              <small class="text-danger" *ngIf="doctoremail.errors?.pattern && doctoremail.touched">Invalid email</small>
+            </div>
+            <div class="form-group">
+              <label>Gender <b class="text-danger">*</b></label>
+              <select class="form-control" name="doctorgender"
+                [(ngModel)]="doctor.gender" required #doctorgender="ngModel"
+                [class.is-invalid]="doctorgender.invalid && doctorgender.touched">
+                <option value="" disabled selected>Select gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+              <small class="text-danger" *ngIf="doctorgender.invalid && doctorgender.touched">Required</small>
+            </div>
+            <div class="form-group">
+              <label>Mobile <b class="text-danger">*</b></label>
+              <input type="tel" maxlength="10" minlength="10" class="form-control" placeholder="10-digit mobile"
+                name="doctormobile" [(ngModel)]="doctor.mobile" required #doctormobile="ngModel"
+                [class.is-invalid]="doctormobile.invalid && doctormobile.touched">
+              <small class="text-danger" *ngIf="doctormobile.invalid && doctormobile.touched">Required</small>
+            </div>
+            <div class="form-group">
+              <label>Specialization <b class="text-danger">*</b></label>
+              <input type="text" class="form-control" placeholder="e.g. Cardiology" name="specialization"
+                [(ngModel)]="doctor.specialization" required #specialization="ngModel"
+                [class.is-invalid]="specialization.invalid && specialization.touched">
+              <small class="text-danger" *ngIf="specialization.invalid && specialization.touched">Required</small>
+            </div>
+            <div class="form-group">
+              <label>Experience (years) <b class="text-danger">*</b></label>
+              <input type="number" class="form-control" placeholder="Years of experience" name="experience"
+                [(ngModel)]="doctor.experience" required #experience="ngModel"
+                [class.is-invalid]="experience.invalid && experience.touched">
+              <small class="text-danger" *ngIf="experience.invalid && experience.touched">Required</small>
+            </div>
+            <div class="form-group">
+              <label>Previous Hospital <b class="text-danger">*</b></label>
+              <input type="text" class="form-control" placeholder="Previous hospital name" name="previoushospital"
+                [(ngModel)]="doctor.previoushospital" required #previoushospital="ngModel"
+                [class.is-invalid]="previoushospital.invalid && previoushospital.touched">
+              <small class="text-danger" *ngIf="previoushospital.invalid && previoushospital.touched">Required</small>
+            </div>
+            <div class="form-group">
+              <label>Address <b class="text-danger">*</b></label>
+              <input type="text" class="form-control" placeholder="Enter address" name="doctoraddress"
+                [(ngModel)]="doctor.address" required #doctoraddress="ngModel"
+                [class.is-invalid]="doctoraddress.invalid && doctoraddress.touched">
+              <small class="text-danger" *ngIf="doctoraddress.invalid && doctoraddress.touched">Required</small>
+            </div>
+            <div class="form-group pwd-full-width">
+              <label>Password <b class="text-danger">*</b></label>
+              <div class="pwd-input-wrap">
+                <input [type]="showDoctorPassword ? 'text' : 'password'" class="form-control" placeholder="Create a strong password" name="pwd"
+                  [(ngModel)]="doctor.password" required #doctorpassword="ngModel"
+                  (focus)="doctorPasswordTouched = true"
+                  [class.is-invalid]="doctorPasswordTouched && !isPasswordValid(doctor.password)">
+                <button type="button" class="pwd-toggle" (click)="showDoctorPassword = !showDoctorPassword" tabindex="-1">
+                  <i class="fa" [ngClass]="showDoctorPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                </button>
+              </div>
+              <div class="pwd-strength-bar" *ngIf="doctor.password">
+                <div class="strength-segments">
+                  <span class="seg" [class.filled]="passwordStrength(doctor.password) >= 1" [ngClass]="passwordStrength(doctor.password) >= 1 ? strengthClass(doctor.password) : ''"></span>
+                  <span class="seg" [class.filled]="passwordStrength(doctor.password) >= 2" [ngClass]="passwordStrength(doctor.password) >= 2 ? strengthClass(doctor.password) : ''"></span>
+                  <span class="seg" [class.filled]="passwordStrength(doctor.password) >= 3" [ngClass]="passwordStrength(doctor.password) >= 3 ? strengthClass(doctor.password) : ''"></span>
+                  <span class="seg" [class.filled]="passwordStrength(doctor.password) >= 4" [ngClass]="passwordStrength(doctor.password) >= 4 ? strengthClass(doctor.password) : ''"></span>
+                  <span class="seg" [class.filled]="passwordStrength(doctor.password) >= 5" [ngClass]="passwordStrength(doctor.password) >= 5 ? strengthClass(doctor.password) : ''"></span>
+                </div>
+                <span class="strength-label" [ngClass]="strengthClass(doctor.password)">{{strengthLabel(doctor.password)}}</span>
+              </div>
+              <div class="pwd-rules" *ngIf="doctorPasswordTouched">
+                <div class="pwd-rule" [class.rule-ok]="hasMinLength(doctor.password)" [class.rule-fail]="doctor.password && !hasMinLength(doctor.password)">
+                  <i class="fa" [ngClass]="hasMinLength(doctor.password) ? 'fa-check-circle' : 'fa-times-circle'"></i> At least 8 characters
+                </div>
+                <div class="pwd-rule" [class.rule-ok]="hasUppercase(doctor.password)" [class.rule-fail]="doctor.password && !hasUppercase(doctor.password)">
+                  <i class="fa" [ngClass]="hasUppercase(doctor.password) ? 'fa-check-circle' : 'fa-times-circle'"></i> One uppercase letter (A-Z)
+                </div>
+                <div class="pwd-rule" [class.rule-ok]="hasLowercase(doctor.password)" [class.rule-fail]="doctor.password && !hasLowercase(doctor.password)">
+                  <i class="fa" [ngClass]="hasLowercase(doctor.password) ? 'fa-check-circle' : 'fa-times-circle'"></i> One lowercase letter (a-z)
+                </div>
+                <div class="pwd-rule" [class.rule-ok]="hasNumber(doctor.password)" [class.rule-fail]="doctor.password && !hasNumber(doctor.password)">
+                  <i class="fa" [ngClass]="hasNumber(doctor.password) ? 'fa-check-circle' : 'fa-times-circle'"></i> One number (0-9)
+                </div>
+                <div class="pwd-rule" [class.rule-ok]="hasSpecial(doctor.password)" [class.rule-fail]="doctor.password && !hasSpecial(doctor.password)">
+                  <i class="fa" [ngClass]="hasSpecial(doctor.password) ? 'fa-check-circle' : 'fa-times-circle'"></i> One special character (!&#64;#$%...)
+                </div>
+              </div>
+            </div>
+            <div class="form-group pwd-full-width">
+              <label>Confirm Password <b class="text-danger">*</b></label>
+              <div class="pwd-input-wrap">
+                <input [type]="showDoctorConfirm ? 'text' : 'password'" class="form-control" placeholder="Re-enter password" name="ConfirmPassword"
+                  [(ngModel)]="confirmDoctorPassword" required
+                  (blur)="confirmDoctorPasswordBlurred = true"
+                  [class.is-invalid]="confirmDoctorPasswordBlurred && confirmDoctorPassword !== doctor.password"
+                  [class.is-valid]="confirmDoctorPasswordBlurred && confirmDoctorPassword === doctor.password && confirmDoctorPassword !== ''">
+                <button type="button" class="pwd-toggle" (click)="showDoctorConfirm = !showDoctorConfirm" tabindex="-1">
+                  <i class="fa" [ngClass]="showDoctorConfirm ? 'fa-eye-slash' : 'fa-eye'"></i>
+                </button>
+              </div>
+              <div class="pwd-match-msg" *ngIf="confirmDoctorPasswordBlurred && confirmDoctorPassword">
+                <span class="match-ok" *ngIf="confirmDoctorPassword === doctor.password"><i class="fa fa-check-circle"></i> Passwords match</span>
+                <span class="match-fail" *ngIf="confirmDoctorPassword !== doctor.password"><i class="fa fa-times-circle"></i> Passwords do not match</span>
+              </div>
+            </div>
+          </div>
+          <div class="reg-terms">
+            <input type="checkbox" name="remember" required> I agree to all Terms &amp; Conditions
+          </div>
+          <button [disabled]="doctorform.form.invalid || doctor.password !== confirmDoctorPassword || !isPasswordValid(doctor.password)" type="submit" class="reg-submit-btn">Create Account</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
