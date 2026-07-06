@@ -41,7 +41,7 @@ public class DoctorPatientAppointmentFlowTest extends BaseTest {
 
         BookAppointmentPage appointmentPage = new BookAppointmentPage(DriverFactory.getDriver()).open();
         Assert.assertEquals(appointmentPage.patientEmail(), patientEmail, "Patient email should be prefilled");
-        appointmentPage.chooseSpecializationContaining(specialization);
+        appointmentPage.chooseSpecializationContainingStrict(specialization);
         appointmentPage.chooseDoctorContaining(doctorName);
         Assert.assertTrue(
                 appointmentPage.hasAvailableSlotsForSelectedDoctor(),

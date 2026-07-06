@@ -72,6 +72,11 @@ public class BookAppointmentPage extends BasePage {
         selectOptionContaining(specializationSelect, specializationText);
         waitForOptions(doctorSelect);
     }
+    public void chooseSpecializationContainingStrict(String specializationText) {
+        waitForOptions(specializationSelect);
+        selectOptionContainingStrict(specializationSelect, specializationText);
+        waitForOptions(doctorSelect);
+    }
 
     public void chooseDoctorContaining(String doctorName) {
         selectOptionContaining(doctorSelect, doctorName);
@@ -163,6 +168,23 @@ public class BookAppointmentPage extends BasePage {
             if (option.isEnabled()
                     && (label.toLowerCase().contains(expected)
                     || (value != null && value.toLowerCase().contains(expected)))) {
+                select.selectByVisibleText(label);
+                return;
+            }
+        }
+        throw new IllegalStateException("Could not find dropdown option containing: " + text);
+    }
+
+
+    private void selectOptionContainingStrict(WebElement selectElement, String text) {
+        Select select = new Select(wait.until(ExpectedConditions.elementToBeClickable(selectElement)));
+        String expected = text.toLowerCase();
+        for (WebElement option : select.getOptions()) {
+            String label = option.getText().trim();
+            String value = option.getAttribute("value");
+            if (option.isEnabled()
+                    && (label.contains(expected)
+                    || (value != null && value.contains(expected)))) {
                 select.selectByVisibleText(label);
                 return;
             }

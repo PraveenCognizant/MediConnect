@@ -102,3 +102,19 @@
 [2026-07-06 22:17:47] TEST STARTED: testGetTotalUsers
 [2026-07-06 22:17:47] TEST FAILED: testGetTotalUsers - Reason: javax.net.ssl.SSLHandshakeException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
 [2026-07-06 22:17:47] TEST SUITE FINISHED: Backend API Tests
+[2026-07-06 22:46:42] TEST SUITE STARTED: Cucumber BDD UI Scenarios
+[2026-07-06 22:46:44] TEST STARTED: runScenario
+[2026-07-06 22:47:07] TEST FAILED: runScenario - Reason: java.lang.AssertionError: Expected URL path was not reached: /userdashboard expected [true] but found [false]
+[2026-07-06 22:47:11] TEST STARTED: runScenario
+[2026-07-06 22:49:36] TEST SUITE STARTED: Cucumber BDD UI Scenarios
+[2026-07-06 22:49:38] TEST STARTED: runScenario
+[2026-07-06 22:49:50] TEST PASSED: runScenario
+[2026-07-06 22:49:50] TEST STARTED: runScenario
+[2026-07-06 22:49:59] TEST PASSED: runScenario
+[2026-07-06 22:49:59] TEST STARTED: runScenario
+[2026-07-06 22:50:08] TEST PASSED: runScenario
+[2026-07-06 22:50:08] TEST STARTED: runScenario
+[2026-07-06 22:50:18] TEST PASSED: runScenario
+[2026-07-06 22:50:18] TEST STARTED: runScenario
+[2026-07-06 22:50:27] TEST PASSED: runScenario
+[2026-07-06 22:50:27] TEST STARTED: runScenario
