@@ -31,6 +31,7 @@ public class LoginApiTest extends BaseApiTest {
         loginPayload.put("password", password);
 
         given()
+                .relaxedHTTPSValidation()
             .contentType(ContentType.JSON)
             .body(loginPayload)
         .when()
@@ -51,11 +52,12 @@ public class LoginApiTest extends BaseApiTest {
         loginPayload.put("password", "Wrong@123");
 
         given()
+                .relaxedHTTPSValidation()
             .contentType(ContentType.JSON)
             .body(loginPayload)
         .when()
             .post("/loginuser")
         .then()
-            .statusCode(500);
+            .statusCode(401);
     }
 }

@@ -1,0 +1,1 @@
+{"uuid":"8d626f1a-b972-4f40-bbf9-82d19b89d646","name":"com.mediconnect.api.RegistrationApiTest","children":["c8702c82-a85c-4b35-b0a3-85e2173c49f9"],"befores":[{"name":"setupBaseURI","status":"passed","stage":"finished","description":"","steps":[],"attachments":[],"parameters":[],"start":1783398476501,"stop":1783398476874}],"afters":[],"start":1783398476462,"stop":1783398478461}

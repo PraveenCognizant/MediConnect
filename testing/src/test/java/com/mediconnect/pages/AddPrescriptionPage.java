@@ -8,9 +8,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class AddPrescriptionPage extends BasePage {
 
@@ -81,21 +83,26 @@ public class AddPrescriptionPage extends BasePage {
         throw new IllegalStateException("Could not find patient option containing: " + patientNamePart);
     }
 
-    public void selectFirstPatient() {
-        // pick the first non-disabled option
-        List<WebElement> options = patientSelect.findElements(By.tagName("option"));
-        for (WebElement opt : options) {
-            if (opt.getAttribute("disabled") != null)
-                continue;
-            String label = opt.getText() == null ? "" : opt.getText().trim();
-            if (label.isEmpty())
-                continue;
-            opt.click();
-            return;
-        }
-        throw new IllegalStateException("No selectable patient options found");
-    }
+    public void selectLastPatient() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
+        // 1. Wait until the options inside the dropdown are visible/populated
+        wait.until(ExpectedConditions.visibilityOfNestedElementsLocatedBy(patientSelect, By.tagName("option")));
+
+        // 2. Fetch all options
+        List<WebElement> options = patientSelect.findElements(By.tagName("option"));
+
+        // 3. Select the last option directly using JavaScript to trigger Angular change events
+        if (!options.isEmpty()) {
+            WebElement lastOption = options.get(options.size() - 1);
+
+            org.openqa.selenium.JavascriptExecutor js = (org.openqa.selenium.JavascriptExecutor) driver;
+            js.executeScript("arguments[0].click();", lastOption);
+            js.executeScript("arguments[0].dispatchEvent(new Event('change', { bubbles: true }));", patientSelect);
+        } else {
+            throw new IllegalStateException("No patient options found in the dropdown");
+        }
+    }
     public String patientSelectedText() {
         WebElement selected = patientSelect.findElement(By.cssSelector("option:checked"));
         return selected.getText().trim();
@@ -110,12 +117,17 @@ public class AddPrescriptionPage extends BasePage {
 
     public void ensureDoctorNamePresent() {
         wait.until(ExpectedConditions.visibilityOf(doctorNameInput));
-        if (!doctorNameInput.getAttribute("value").trim().isEmpty()) {
-            return;
-        }
-        throw new IllegalStateException("Doctor name is empty on Add Prescription page.");
-    }
 
+        // Wait up to 10 seconds for Angular to bind the auto-filled value to the DOM
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(d -> {
+            String val = doctorNameInput.getAttribute("value");
+            return val != null && !val.trim().isEmpty();
+        });
+
+        if (doctorNameInput.getAttribute("value").trim().isEmpty()) {
+            throw new IllegalStateException("Doctor name is empty on Add Prescription page.");
+        }
+    }
     public void clickSubmit() {
         click(submitButton);
         wait.until(ExpectedConditions.visibilityOf(resultCard));

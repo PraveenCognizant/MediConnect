@@ -11,6 +11,7 @@ public class UsersApiTest extends BaseApiTest {
     @Test
     public void testGetTotalUsers() {
         given()
+                .relaxedHTTPSValidation()
             .contentType(ContentType.JSON)
         .when()
             .get("/gettotalusers")

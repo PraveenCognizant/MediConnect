@@ -28,6 +28,7 @@ public class RegistrationApiTest extends BaseApiTest {
         userPayload.put("address", address);
 
         given()
+                .relaxedHTTPSValidation()
             .contentType(ContentType.JSON)
             .body(userPayload)
         .when()

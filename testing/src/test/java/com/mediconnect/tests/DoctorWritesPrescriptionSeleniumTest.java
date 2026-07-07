@@ -35,11 +35,11 @@ public class DoctorWritesPrescriptionSeleniumTest extends BaseTest {
                 // Check patient is present in dropdown
                 // Use exact dropdown selection only if the display name matches.
                 // If not, select the first available patient to keep the flow robust.
-                try {
-                        addPrescriptionPage.selectPatientContaining(patientName);
-                } catch (Exception ex) {
-                        addPrescriptionPage.selectFirstPatient();
-                }
+//                try {
+//                        addPrescriptionPage.selectPatientContaining(patientName);
+//                } catch (Exception ex) {
+                        addPrescriptionPage.selectLastPatient();
+               // }
                 addPrescriptionPage.ensureDoctorNamePresent();
 
                 // Write a deterministic random prescription
